@@ -5,6 +5,7 @@
 *.class
 
 *.dll
+*/gSculpt/bin/*.xml
 !*/Facebook.dll
 
 
