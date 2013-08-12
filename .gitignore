@@ -1,4 +1,4 @@
-###################
+﻿###################
 # compiled source #
 ###################
 *.com
@@ -11,7 +11,7 @@
 *.suo
 # Include dlls if they�re in the NuGet packages directory
 !/packages/*/lib/*.dll
-!/gSculpt/bin*.dll
+!/gSculpt/bin/*.dll
 !/packages/*/lib/*/*.dll
 # Include dlls if they're in the CommonReferences directory
 !*CommonReferences/*.dll
