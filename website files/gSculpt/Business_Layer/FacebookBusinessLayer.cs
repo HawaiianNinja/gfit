@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using gSculpt.Models;
 using System.Dynamic;
+using Microsoft.Web.WebPages.OAuth;
 
 namespace gSculpt.Business_Layer
 {
@@ -14,6 +15,8 @@ namespace gSculpt.Business_Layer
         private const string AppID = "296587703816145";
         private const string AppSecret = "5ddf5f4419c40cb6528160ffdaa56623";
 
+
+        //private string something = OAuthWebSecurity.Get
 
 
         private static dynamic ReturnFacebookQuery(string queryFields, string accessToken)
