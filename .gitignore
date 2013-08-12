@@ -6,7 +6,7 @@
 
 #dlls
 #*.dll
-*gSculpt.dll
+*/gSculpt.dll
 
 *.exe
 *.pdb
