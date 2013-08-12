@@ -3,7 +3,11 @@
 ###################
 *.com
 *.class
+
+#dlls
 #*.dll
+*gSculpt.dll
+
 *.exe
 *.pdb
 *.dll.config
