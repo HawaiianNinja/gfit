@@ -4,9 +4,9 @@
 *.com
 *.class
 
-#dlls
-#*.dll
-*/gSculpt.dll
+*.dll
+!*/Facebook.dll
+
 
 *.exe
 *.pdb
