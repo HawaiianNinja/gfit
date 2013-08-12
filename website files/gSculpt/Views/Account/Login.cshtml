@@ -1,0 +1,67 @@
+﻿<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '296587703816145', // App ID
+            status: true, // check login status
+            cookie: true, // enable cookies to allow the server to access the session
+            xfbml: true  // parse XFBML
+        });
+
+        // Additional initialization code here
+
+        FB.Event.subscribe('auth.authResponseChange', function (response) {
+            if (response.status === 'connected') {
+                // the user is logged in and has authenticated your
+                // app, and response.authResponse supplies
+                // the user's ID, a valid access token, a signed
+                // request, and the time the access token 
+                // and signed request each expire
+                
+                var uid = response.authResponse.userID;
+                var accessToken = response.authResponse.accessToken;
+
+                // TODO: Handle the access token
+                
+                // Do a post to the server to finish the logon
+                // This is a form post since we don't want to use AJAX
+                $('#facebook_accessToken').val(accessToken);
+                $('#facebook_uid').val(uid);
+                
+                $('#facebookPostBackForm').submit();
+            } else if (response.status === 'not_authorized') {
+                // the user is logged in to Facebook, 
+                // but has not authenticated your app
+
+                alert('not_authorized');
+            } else {
+                alert('not_authorized again');
+            }
+        });
+    };
+
+    // Load the SDK Asynchronously
+    (function (d) {
+        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+        if (d.getElementById(id)) { return; }
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/en_US/all.js";
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+</script>
+<div data-role="page">
+    <div data-role="header">Header</div>
+
+    <div data-role="content">
+        <div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1"></div>
+        
+        <form id="facebookPostBackForm" action="/Account/Login" method="POST">
+            @Html.AntiForgeryToken();
+            <input type="hidden" value="" id="facebook_uid" name="facebook_uid"/>
+            <input type="hidden" value="" id="facebook_accessToken" name="facebook_accessToken"/>
+        </form>
+
+    </div>
+
+    <div data-role="footer">Footer</div>
+</div>
