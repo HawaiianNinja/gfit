@@ -79,28 +79,25 @@ namespace gSculpt.Controllers
             //we can leave this like that
             var provider = result.Provider;
             var uniqueUserID = result.ProviderUserId;
+
             var uniqueID = provider + "/" + uniqueUserID;
             var accessToken = result.ExtraData["accesstoken"];
 
 
-            var account = AccountBusinessLayer.GetUserByFbUid(result.ProviderUserId);
+            var account = AccountBusinessLayer.GetUserByFbUid(uniqueID);
             if (account == null)
             {
-                account = new Account(uniqueUserID, accessToken);
-                // goto fix up page
+                account = new Account(uniqueID, accessToken);
+                account.PullDataFromFacebook();
+                account.GenerateRandomUsername();
+
                 AccountBusinessLayer.AddAccount(account);
             }
 
-            // check database here
-            FormsAuthentication.SetAuthCookie(account.Uid, true);
-            return View();
 
 
             //log them in with FormsAuthentication 
             FormsAuthentication.SetAuthCookie(uniqueID, false);
-
-
-
 
             return View();
 

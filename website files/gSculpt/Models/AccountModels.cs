@@ -12,8 +12,9 @@ namespace gSculpt.Models
     public class Account
     {
         
-                
-
+        /*
+         * Properties included in DB record
+         */
         public string Uid { get; set; }
         public string LongAuthToken { get; set; }
         public string FirstName { get; set; }
@@ -21,37 +22,76 @@ namespace gSculpt.Models
         public string Username { get; set; }
         public DateTime DOB { get; set; }
         public string Gender { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime LastAccessed { get; set; }
+
+        
+
+        /*
+         * Properties not included in DB record
+         */
+        public List<BasicFriend> Friends { get; private set; }
 
 
 
+        /*
+         * -----------------------------------------------------
+         * Constructors
+         * -----------------------------------------------------
+         */
 
         public Account()
         {
         }
 
-        public Account(string uid, string token)
+
+        public Account(string uid, string shortTermAccessToken)
         {
 
-            /*
-             * Old Code - should be able to be deleated once this is tested
-             *  var client = new FacebookClient(LongAuthToken);
-             *  dynamic result = client.Get("me", new { fields = "first_name,last_name,birthday,gender" });
-             */
-
             Uid = uid;
-            LongAuthToken = FacebookBusinessLayer.GetLongLivedAccessToken(token);
+            LongAuthToken = FacebookBusinessLayer.GetLongLivedAccessToken(shortTermAccessToken);
+            LongAuthToken = shortTermAccessToken;
+
+        }
+
+
+
+
+
+        /*
+         * -----------------------------------------------------
+         * Methods
+         * -----------------------------------------------------
+         */
+
+       
+        //Using the stored LongAuthToken, this will attempt to pull data from facebook about the user
+        public bool PullDataFromFacebook()
+        {
+
+            if (LongAuthToken == null)
+            {
+                throw new NullReferenceException("Must have a long access token to pull data from facebook");
+            }
 
             FirstName = FacebookBusinessLayer.GetUserFirstName(LongAuthToken);
             LastName = FacebookBusinessLayer.GetUserLastName(LongAuthToken);
             DOB = FacebookBusinessLayer.GetUserBirthday(LongAuthToken);
             Gender = FacebookBusinessLayer.GetUserGender(LongAuthToken);
-            Created = DateTime.UtcNow;
-            LastAccessed = DateTime.UtcNow;
+            Friends = FacebookBusinessLayer.GetUserFriends(LongAuthToken);
 
 
+            return true; //TODO: we need to error check that we were able to get data from facebook
         }
+
+
+
+        //
+        // if 
+        public void GenerateRandomUsername()
+        {
+            Random r = new Random();
+            Username = LastName + Convert.ToInt32(r.Next(1, 10000));
+        }
+
 
 
         public bool IsValid()

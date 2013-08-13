@@ -13,7 +13,7 @@ namespace gSculpt.Business_Layer
     {
         public static Account GetUserByFbUid(string uid)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["LocalSQLExpress"].ConnectionString;
             Account user;
             using (var con = new SqlConnection(connectionString))
             {
@@ -36,8 +36,8 @@ namespace gSculpt.Business_Layer
                                Gender = rdr["gender"].ToString(),
                                Uid = rdr["fbUserId"].ToString(),
                                LongAuthToken = rdr["fbAuthToken"].ToString(),
-                               Created = (DateTime)rdr["dateCreated"],
-                               LastAccessed = (DateTime)rdr["dateLastAccessed"]
+                               //Created = (DateTime)rdr["dateCreated"],
+                               //LastAccessed = (DateTime)rdr["dateLastAccessed"]
                            };
             }
             return user;
