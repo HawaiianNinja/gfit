@@ -40,12 +40,12 @@ namespace gSculpt
                         "~/Content/themes/base/jquery.ui.tabs.css",
                         "~/Content/themes/base/jquery.ui.datepicker.css",
                         "~/Content/themes/base/jquery.ui.progressbar.css",
-                        "~/Content/themes/base/jquery.ui.theme.css",
-                        
-                        //jquery-mobile
-                        "~/Content/themes/base/jquery.mobile-1.3.2.css"
-                        
+                        "~/Content/themes/base/jquery.ui.theme.css"
                         ));
+
+            bundles.Add(new StyleBundle("~/Content/themes/custom/css").Include(
+                        "~/Content/themes/custom/jquerymobile_customtheme1.css"));
+
         }
     }
 }

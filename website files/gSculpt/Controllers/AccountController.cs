@@ -21,33 +21,13 @@ namespace gSculpt.Controllers
     {
         //
         // GET: /Account/Login
-
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
+            //view will direct them to LoginWithProvider which will log into facebook
             return View();
         }
 
-        //
-        // POST: /Account/Login
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(string facebook_accessToken, string facebook_uid)
-        {
-            var account = AccountBusinessLayer.GetUserByFbUid(facebook_uid);
-            if (account == null)
-            {
-                account = new Account(facebook_uid, facebook_accessToken);
-                // goto fix up page
-                AccountBusinessLayer.AddAccount(account);
-            }
-            
-            // check database here
-            FormsAuthentication.SetAuthCookie(account.Uid, true);
-            return View();
-        }
 
         //
         // POST: /Account/LogOff
@@ -58,24 +38,9 @@ namespace gSculpt.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        
 
-
-        //
-        // GET: /Account/Register
-
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-
-            
-            return View();
-        }
-
-
-
-
-
-        //
+        // after this is over, it will send them to AuthenticationCallback
         // GET: /Account/OAuthLogin
         [AllowAnonymous]
         public void LoginWithProvider(string provider = "Facebook")
@@ -131,12 +96,8 @@ namespace gSculpt.Controllers
             return View();
 
 
-
-
             //log them in with FormsAuthentication 
             FormsAuthentication.SetAuthCookie(uniqueID, false);
-
-
 
 
 
@@ -150,13 +111,11 @@ namespace gSculpt.Controllers
 
 
 
-
-
         //
         // POST: /Account/Disassociate
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider, string providerUserId)
+        public ActionResult Disassociate(string provider = "Facebook", string providerUserId)
         {
             string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
             ManageMessageId? message = null;
@@ -180,19 +139,19 @@ namespace gSculpt.Controllers
             return RedirectToAction("Manage", new { Message = message });
         }
 
-        //
-        // GET: /Account/Manage
 
-        public ActionResult Manage(ManageMessageId? message)
+
+        //
+        // GET: /Account/Settings
+        // We can use this to manage account settings 
+        [HttpGet]
+        [Authorize]
+        public ActionResult Settings()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
+
+
             return View();
+
         }
 
 

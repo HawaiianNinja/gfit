@@ -1,67 +1,35 @@
-﻿<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '296587703816145', // App ID
-            status: true, // check login status
-            cookie: true, // enable cookies to allow the server to access the session
-            xfbml: true  // parse XFBML
-        });
+﻿<div data-role="page">
 
-        // Additional initialization code here
-
-        FB.Event.subscribe('auth.authResponseChange', function (response) {
-            if (response.status === 'connected') {
-                // the user is logged in and has authenticated your
-                // app, and response.authResponse supplies
-                // the user's ID, a valid access token, a signed
-                // request, and the time the access token 
-                // and signed request each expire
-                
-                var uid = response.authResponse.userID;
-                var accessToken = response.authResponse.accessToken;
-
-                // TODO: Handle the access token
-                
-                // Do a post to the server to finish the logon
-                // This is a form post since we don't want to use AJAX
-                $('#facebook_accessToken').val(accessToken);
-                $('#facebook_uid').val(uid);
-                
-                $('#facebookPostBackForm').submit();
-            } else if (response.status === 'not_authorized') {
-                // the user is logged in to Facebook, 
-                // but has not authenticated your app
-
-                alert('not_authorized');
-            } else {
-                alert('not_authorized again');
-            }
-        });
-    };
-
-    // Load the SDK Asynchronously
-    (function (d) {
-        var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-        if (d.getElementById(id)) { return; }
-        js = d.createElement('script'); js.id = id; js.async = true;
-        js.src = "//connect.facebook.net/en_US/all.js";
-        ref.parentNode.insertBefore(js, ref);
-    }(document));
-</script>
-<div data-role="page">
-    <div data-role="header">Header</div>
+    <div data-role="header">
+        <h1>gFIT</h1>
+    </div>
 
     <div data-role="content">
-        <div class="fb-login-button" data-show-faces="true" data-width="400" data-max-rows="1"></div>
-        
-        <form id="facebookPostBackForm" action="/Account/Login" method="POST">
-            @Html.AntiForgeryToken();
-            <input type="hidden" value="" id="facebook_uid" name="facebook_uid"/>
-            <input type="hidden" value="" id="facebook_accessToken" name="facebook_accessToken"/>
-        </form>
+
+        <div>
+            Welcome to gFit. To use this app you need to log in. We use Facebook authentication to do this. Don't worry, we won't spam your Facbook friends or anything,
+        we just don't want to force you to create another account!
+        </div>
+
+
+        <div class="center-wrapper">
+            
+            <!--even though this is an internal link, it needs to be fetched externally since it calls facebook.com-->
+            <a href="@Url.Action("LoginWithProvider")" 
+                data-role="button" 
+                data-icon="arrow-r" 
+                data-inline="true" 
+                data-iconpos="right"
+                rel="external">Login With <span style="color:#3B5998">Facebook</span></a>
+
+
+        </div>
+
+
 
     </div>
 
-    <div data-role="footer">Footer</div>
+    <div data-role="footer">
+        <h1>Foot</h1>
+    </div>
 </div>
