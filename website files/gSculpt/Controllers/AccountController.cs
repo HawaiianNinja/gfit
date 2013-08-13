@@ -113,6 +113,7 @@ namespace gSculpt.Controllers
 
         //
         // POST: /Account/Disassociate
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Disassociate(string provider = "Facebook", string providerUserId)
@@ -138,6 +139,7 @@ namespace gSculpt.Controllers
 
             return RedirectToAction("Manage", new { Message = message });
         }
+        */
 
 
 
