@@ -46,6 +46,7 @@ namespace gSculpt.Controllers
         public void LoginWithProvider(string provider = "Facebook")
         {
             //Set this to the action of our callback method
+            
             OAuthWebSecurity.RequestAuthentication(provider, Url.Action("AuthenticationCallback"));
 
         }
@@ -68,10 +69,6 @@ namespace gSculpt.Controllers
                 return View("Error");
             }
 
-            if(!result.ExtraData.Keys.Contains("accesstoken"))
-            {
-                return View ("No access token");
-            }
 
 
             
@@ -81,8 +78,9 @@ namespace gSculpt.Controllers
             var uniqueUserID = result.ProviderUserId;
 
             var uniqueID = provider + "/" + uniqueUserID;
-            var accessToken = result.ExtraData["accesstoken"];
-
+            var accessToken = result.ExtraData["access_token"];
+            var username = result.ExtraData["username"];
+            var longAT = FacebookBusinessLayer.GetLongLivedAccessToken(accessToken);
 
             var account = AccountBusinessLayer.GetUserByFbUid(uniqueID);
             if (account == null)

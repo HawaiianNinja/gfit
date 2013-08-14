@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
 using gSculpt.Models;
+using gSculpt.Facebook;
 
 namespace gSculpt
 {
@@ -22,9 +23,11 @@ namespace gSculpt
             //    consumerKey: "",
             //    consumerSecret: "");
 
-            OAuthWebSecurity.RegisterFacebookClient(
-                appId: "296587703816145",
-                appSecret: "5ddf5f4419c40cb6528160ffdaa56623");
+            //OAuthWebSecurity.RegisterFacebookClient(
+            //    appId: "296587703816145",
+            //    appSecret: "5ddf5f4419c40cb6528160ffdaa56623");
+
+            OAuthWebSecurity.RegisterClient(new FacebookScopedClient(), "Facebook", null);
             
             //OAuthWebSecurity.RegisterGoogleClient();
         }

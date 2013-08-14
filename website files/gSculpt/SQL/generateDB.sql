@@ -1,6 +1,6 @@
 ﻿USE [master]
 GO
-/****** Object:  Database [gFit]    Script Date: 8/13/2013 12:19:48 AM ******/
+/****** Object:  Database [gFit]    Script Date: 8/13/2013 5:09:29 PM ******/
 CREATE DATABASE [gFit]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -75,7 +75,7 @@ ALTER DATABASE [gFit] SET TARGET_RECOVERY_TIME = 0 SECONDS
 GO
 USE [gFit]
 GO
-/****** Object:  StoredProcedure [dbo].[usp_addAccount]    Script Date: 8/13/2013 12:19:48 AM ******/
+/****** Object:  StoredProcedure [dbo].[usp_addAccount]    Script Date: 8/13/2013 5:09:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -124,8 +124,9 @@ END
 
 
 RETURN 0
+
 GO
-/****** Object:  StoredProcedure [dbo].[usp_getAccountByFacebookUid]    Script Date: 8/13/2013 12:19:48 AM ******/
+/****** Object:  StoredProcedure [dbo].[usp_getAccountByFacebookUid]    Script Date: 8/13/2013 5:09:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,42 +148,117 @@ AS
 	FROM ACCOUNTS A
 	WHERE A.fbUserId = @FacebookUid
 RETURN 0
+
 GO
-/****** Object:  Table [dbo].[ACCOUNTS]    Script Date: 8/13/2013 12:19:48 AM ******/
+/****** Object:  Table [dbo].[ACCOUNT_HAS_OAUTH]    Script Date: 8/13/2013 5:09:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ACCOUNT_HAS_OAUTH](
+	[account_id] [int] NOT NULL,
+	[provider_id] [int] NOT NULL,
+	[authToken] [nvarchar](max) NOT NULL,
+	[uid] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_ACCOUNT_HAS_OAUTH] PRIMARY KEY CLUSTERED 
+(
+	[account_id] ASC,
+	[provider_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[ACCOUNTS]    Script Date: 8/13/2013 5:09:30 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ACCOUNTS](
 	[id] [int] IDENTITY(1,1) NOT NULL,
+	[oAuth] [bit] NOT NULL,
 	[username] [nvarchar](32) NOT NULL,
+	[password] [nvarchar](256) NULL,
 	[firstName] [nvarchar](64) NULL,
 	[lastName] [nvarchar](64) NULL,
 	[dob] [date] NULL,
 	[gender] [nvarchar](16) NULL,
-	[fbUserId] [nvarchar](max) NOT NULL,
-	[fbAuthToken] [nvarchar](max) NULL,
 	[dateCreated] [datetime2](7) NOT NULL,
 	[dateLastAccessed] [datetime2](7) NOT NULL,
-PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK__ACCOUNTS__3213E83F6B869F75] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[OAUTH_PROVIDERS]    Script Date: 8/13/2013 5:09:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OAUTH_PROVIDERS](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[provider_name] [nchar](10) NOT NULL,
+ CONSTRAINT [PK_OAUTH_PROVIDERS] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  View [dbo].[V_USERS_WITH_PROVIDERS]    Script Date: 8/13/2013 5:09:30 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[V_USERS_WITH_PROVIDERS]
+AS
+
+SELECT 
+	A.id as [account_id],
+	A.oAuth,
+	A.password,
+	A.firstName,
+	A.lastName,
+	A.dob,
+	A.gender,
+	P.id as [provider_id],
+	P.provider_name as [provider_name] ,
+	AHO.authToken,
+	AHO.uid,
+	A.dateCreated,
+	A.dateLastAccessed
+
+
+
+	FROM ACCOUNTS A
+	LEFT OUTER JOIN ACCOUNT_HAS_OAUTH AHO on (A.id = AHO.account_id)
+	Left Outer JOIN OAUTH_PROVIDERS P on (P.id = AHO.provider_id)
+
 
 GO
 SET ANSI_PADDING ON
 
 GO
-/****** Object:  Index [IX_USERS_username]    Script Date: 8/13/2013 12:19:48 AM ******/
+/****** Object:  Index [IX_USERS_username]    Script Date: 8/13/2013 5:09:30 PM ******/
 CREATE NONCLUSTERED INDEX [IX_USERS_username] ON [dbo].[ACCOUNTS]
 (
 	[username] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[ACCOUNTS] ADD  DEFAULT (getdate()) FOR [dateCreated]
+ALTER TABLE [dbo].[ACCOUNTS] ADD  CONSTRAINT [DF__ACCOUNTS__dateCr__1273C1CD]  DEFAULT (getdate()) FOR [dateCreated]
 GO
-ALTER TABLE [dbo].[ACCOUNTS] ADD  DEFAULT (getdate()) FOR [dateLastAccessed]
+ALTER TABLE [dbo].[ACCOUNTS] ADD  CONSTRAINT [DF__ACCOUNTS__dateLa__1367E606]  DEFAULT (getdate()) FOR [dateLastAccessed]
+GO
+ALTER TABLE [dbo].[ACCOUNT_HAS_OAUTH]  WITH CHECK ADD  CONSTRAINT [FK_ACCOUNT_HAS_OAUTH_ACCOUNTS] FOREIGN KEY([account_id])
+REFERENCES [dbo].[ACCOUNTS] ([id])
+GO
+ALTER TABLE [dbo].[ACCOUNT_HAS_OAUTH] CHECK CONSTRAINT [FK_ACCOUNT_HAS_OAUTH_ACCOUNTS]
+GO
+ALTER TABLE [dbo].[ACCOUNT_HAS_OAUTH]  WITH CHECK ADD  CONSTRAINT [FK_ACCOUNT_HAS_OAUTH_OAUTH_PROVIDERS] FOREIGN KEY([provider_id])
+REFERENCES [dbo].[OAUTH_PROVIDERS] ([id])
+GO
+ALTER TABLE [dbo].[ACCOUNT_HAS_OAUTH] CHECK CONSTRAINT [FK_ACCOUNT_HAS_OAUTH_OAUTH_PROVIDERS]
 GO
 USE [master]
 GO
