@@ -9,9 +9,11 @@ using DotNetOpenAuth.AspNet;
 using Facebook;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using gSculpt.Business_Layer;
+using gSculpt.BusinessLayer;
 using gSculpt.Filters;
 using gSculpt.Models;
+using gSculpt.Facebook;
+using gSculpt.DBLayer;
 
 namespace gSculpt.Controllers
 {
@@ -75,27 +77,31 @@ namespace gSculpt.Controllers
             //give them a unique UserID (facebook/userID)
             //we can leave this like that
             var provider = result.Provider;
-            var uniqueUserID = result.ProviderUserId;
+            var facebookUid = result.ProviderUserId;
+            var username = result.UserName;
 
-            var uniqueID = provider + "/" + uniqueUserID;
             var accessToken = result.ExtraData["access_token"];
-            var username = result.ExtraData["username"];
-            var longAT = FacebookBusinessLayer.GetLongLivedAccessToken(accessToken);
+            
 
-            var account = AccountBusinessLayer.GetUserByFbUid(uniqueID);
+            //get a long lived access token
+            var longLivedToken = FacebookBusinessLayer.GetLongLivedAccessToken(accessToken);
+
+
+
+            var account = AccountDBLayer.Instance.GetAccountFromDB(facebookUid);
+
             if (account == null)
             {
-                account = new Account(uniqueID, accessToken);
+                account = new Account(facebookUid, accessToken);
+                account.Provider = provider;
                 account.PullDataFromFacebook();
-                account.GenerateRandomUsername();
-
-                AccountBusinessLayer.AddAccount(account);
+                AccountDBLayer.Instance.AddAccountToDB(account);
             }
 
 
 
             //log them in with FormsAuthentication 
-            FormsAuthentication.SetAuthCookie(uniqueID, false);
+            FormsAuthentication.SetAuthCookie(facebookUid, false);
 
             return View();
 

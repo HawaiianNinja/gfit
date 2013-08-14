@@ -4,26 +4,37 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Dynamic;
 using Facebook;
-using gSculpt.Business_Layer;
+using gSculpt.BusinessLayer;
+using gSculpt.Facebook;
 
 namespace gSculpt.Models
 {
-    [Table("ACCOUNTS")]
+
+
     public class Account
     {
         
         /*
          * Properties included in DB record
          */
-        public string Uid { get; set; }
-        public string LongAuthToken { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set;  }
+
+
+        //properties of account
+        public int AccountId { get; set; }
         public string Username { get; set; }
+        public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set;  }        
         public DateTime DOB { get; set; }
         public string Gender { get; set; }
 
         
+        //properties of provider
+        public string Provider { get; set; }
+        public string LongTermAuthToken { get; set; }
+        public string Uid {get;set;}
+        
+
 
         /*
          * Properties not included in DB record
@@ -47,8 +58,8 @@ namespace gSculpt.Models
         {
 
             Uid = uid;
-            LongAuthToken = FacebookBusinessLayer.GetLongLivedAccessToken(shortTermAccessToken);
-            LongAuthToken = shortTermAccessToken;
+            LongTermAuthToken = FacebookBusinessLayer.GetLongLivedAccessToken(shortTermAccessToken);
+            LongTermAuthToken = shortTermAccessToken;
 
         }
 
@@ -67,16 +78,16 @@ namespace gSculpt.Models
         public bool PullDataFromFacebook()
         {
 
-            if (LongAuthToken == null)
-            {
+            if (LongTermAuthToken == null){        
                 throw new NullReferenceException("Must have a long access token to pull data from facebook");
             }
 
-            FirstName = FacebookBusinessLayer.GetUserFirstName(LongAuthToken);
-            LastName = FacebookBusinessLayer.GetUserLastName(LongAuthToken);
-            DOB = FacebookBusinessLayer.GetUserBirthday(LongAuthToken);
-            Gender = FacebookBusinessLayer.GetUserGender(LongAuthToken);
-            Friends = FacebookBusinessLayer.GetUserFriends(LongAuthToken);
+            Username = FacebookBusinessLayer.GetUsername(LongTermAuthToken);
+            FirstName = FacebookBusinessLayer.GetUserFirstName(LongTermAuthToken);
+            LastName = FacebookBusinessLayer.GetUserLastName(LongTermAuthToken);
+            DOB = FacebookBusinessLayer.GetUserBirthday(LongTermAuthToken);
+            Gender = FacebookBusinessLayer.GetUserGender(LongTermAuthToken);
+            Friends = FacebookBusinessLayer.GetUserFriends(LongTermAuthToken);
 
 
             return true; //TODO: we need to error check that we were able to get data from facebook
@@ -84,13 +95,6 @@ namespace gSculpt.Models
 
 
 
-        //
-        // if 
-        public void GenerateRandomUsername()
-        {
-            Random r = new Random();
-            Username = LastName + Convert.ToInt32(r.Next(1, 10000));
-        }
 
 
 

@@ -7,7 +7,7 @@ using gSculpt.Models;
 using System.Dynamic;
 using Microsoft.Web.WebPages.OAuth;
 
-namespace gSculpt.Business_Layer
+namespace gSculpt.Facebook
 {
     public static class FacebookBusinessLayer
     {
@@ -40,7 +40,7 @@ namespace gSculpt.Business_Layer
         {
 
             dynamic queryResult = ReturnFacebookQuery("last_name", accessToken);
-            return queryResult.first_name;
+            return queryResult.last_name;
 
         }
 
@@ -62,6 +62,15 @@ namespace gSculpt.Business_Layer
 
             return birthday;
         }
+
+        public static string GetUsername(string accessToken)
+        {
+
+            dynamic queryResult = ReturnFacebookQuery("username", accessToken);
+            return queryResult.username;
+        }
+
+
 
         public static string GetUserGender(string accessToken)
         {

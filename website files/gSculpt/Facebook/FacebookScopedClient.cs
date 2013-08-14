@@ -5,10 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -36,7 +32,7 @@ namespace gSculpt.Facebook
 
         public string ProviderName
         {
-            get { return "Facebook"; }
+            get { return "FACEBOOK"; }
         }
 
 
@@ -157,7 +153,7 @@ namespace gSculpt.Facebook
             }
 
 
-            string fields = "id,first_name,lasta_name,username";
+            string fields = "id,username";
             string accessToken = token.Substring("access_token=", "&");
             string dataUrl = graphApiMe + "fields=" + fields + "&access_token=" + token.Substring("access_token=", "&");
 
@@ -166,6 +162,7 @@ namespace gSculpt.Facebook
             // this dictionary must contains
             Dictionary<string, string> userData = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
             userData.Add("access_token", accessToken);
+
             return userData;
         }
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using gSculpt.Models;
 
-namespace gSculpt.Business_Layer
+namespace gSculpt.BusinessLayer
 {
     public static class AccountBusinessLayer
     {
@@ -35,7 +35,7 @@ namespace gSculpt.Business_Layer
                                DOB = (DateTime)rdr["dob"],
                                Gender = rdr["gender"].ToString(),
                                Uid = rdr["fbUserId"].ToString(),
-                               LongAuthToken = rdr["fbAuthToken"].ToString(),
+                               LongTermAuthToken = rdr["fbAuthToken"].ToString(),
                                //Created = (DateTime)rdr["dateCreated"],
                                //LastAccessed = (DateTime)rdr["dateLastAccessed"]
                            };
@@ -45,6 +45,8 @@ namespace gSculpt.Business_Layer
 
         public static bool AddAccount(Account acc)
         {
+
+
             var connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
             int result;
             using (var con = new SqlConnection(connectionString))
@@ -57,7 +59,7 @@ namespace gSculpt.Business_Layer
                 cmd.Parameters.Add(new SqlParameter("@dob", acc.DOB));
                 cmd.Parameters.Add(new SqlParameter("@gender", acc.Gender));
                 cmd.Parameters.Add(new SqlParameter("@fbUserId", acc.Uid));
-                cmd.Parameters.Add(new SqlParameter("@fbAuthToken", acc.LongAuthToken));
+                cmd.Parameters.Add(new SqlParameter("@fbAuthToken", acc.LongTermAuthToken));
                 con.Open();
                 result = cmd.ExecuteNonQuery();
             }
