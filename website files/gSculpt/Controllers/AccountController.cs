@@ -102,6 +102,9 @@ namespace gSculpt.Controllers
 
             //log them in with FormsAuthentication 
             FormsAuthentication.SetAuthCookie(facebookUid, false);
+            Session["account_id"] = account.AccountId;
+            Session["fb_auth_token"] = account.LongTermAuthToken;
+
 
             return View();
 
