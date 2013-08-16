@@ -39,6 +39,7 @@ namespace gSculpt.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
+        [ActionName("Login")]
         public ActionResult Login()
         {
 
@@ -51,17 +52,17 @@ namespace gSculpt.Controllers
 
 
         //
-        // POST: /Account/LogOff
+        // POST: /Account/logout
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
-            Session.Abandon();
+            
 
             TempData["notification"] = notification_loggedOut;
 
             string urlAction = Url.Action("Login");
 
-            return Login();
+            return RedirectToAction("Login");
         }
 
         
@@ -127,10 +128,9 @@ namespace gSculpt.Controllers
             FormsAuthentication.SetAuthCookie(facebookUid, false);
             Session["account"] = account;
 
-
-            RedirectToAction("Home");
-
-            return View();
+            return RedirectToAction("Index", "Home");
+            
+            
 
         }
 
