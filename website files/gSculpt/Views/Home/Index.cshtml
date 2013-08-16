@@ -14,11 +14,11 @@
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">Welcome 
                 @(Model.Gender.ToLower() == "female" ? "Ms. " : "Mr. ")
-                @Model.LastName 
+                @Model.LastName
                 (@Model.Username)                
             </li>
 
-            <li><a href="@Url.Action("Index", "Gauntlets")">Pick Up a Gauntlet</a></li>
+            <li><a href="@Url.Action("Index", "Gauntlet")">Pick Up a Gauntlet</a></li>
             <li><a href="#">Throw Down a Gauntlet</a></li>
             <li><a href="@Url.Action("Logout", "Account")">Logout</a></li>
 
@@ -29,10 +29,10 @@
     </div>
 
 
+    <div data-role="footer" data-position="fixed"></div>
+
+
 </div>
-
-<div data-role="footer" data-position="fixed">Footer</div>
-
 
 
 
