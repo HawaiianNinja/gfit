@@ -8,11 +8,18 @@ namespace gSculpt.Models
     public class Gauntlet
     {
 
-        public DateTime Date { get; set; }
-        public String Verb { get; set; }
+        public int Id { get; set; }
+        public string Excercise { get; set; }
         public int Reps { get; set; }
-        public String Activity { get; set; }
         public int Difficulty { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateAssigned { get; set; }
+
+
+        public Gauntlet() { }
+
+
+
 
 
 

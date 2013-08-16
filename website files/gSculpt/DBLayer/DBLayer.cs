@@ -90,5 +90,18 @@ namespace gSculpt.DBLayer
 
 
 
+        public static Object GetColValue(DataRow row, string colName)
+        {
+            if (row.IsNull(colName))
+            {
+                return null;
+            }
+
+            return row[colName];
+
+        }
+
+
+
     }
 }

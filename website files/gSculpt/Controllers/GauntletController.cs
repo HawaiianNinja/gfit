@@ -11,26 +11,13 @@ namespace gSculpt.Controllers
     {
         
         
-        
         public ActionResult Index()
         {
 
-            Gauntlet g = new Gauntlet
-            {
-                Date = DateTime.Today,
-                Activity = "Pullups",
-                Difficulty = 10,
-                Reps = 100
-            };
-
-            List<Gauntlet> l = new List<Gauntlet>();
-            l.Add(g);
-            l.Add(g);
-
-
-            return View(l);
+            return View();
 
         }
+
 
 
 

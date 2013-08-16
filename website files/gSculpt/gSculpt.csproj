@@ -166,9 +166,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BusinessLayer\AccountBusinessLayer.cs" />
-    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="DBLayer\DBLayer.cs" />
     <Compile Include="DBLayer\AccountDBLayer.cs" />
+    <Compile Include="DBLayer\GauntletDBLayer.cs" />
     <Compile Include="Facebook\FacebookBusinessLayer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GauntletController.cs" />
@@ -180,6 +180,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Gauntlet.cs" />
+    <Compile Include="Models\GauntletSet.cs" />
     <Compile Include="Models\ViewModels\AccountViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -302,18 +303,13 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Gauntlet\Details.cshtml" />
     <Content Include="Views\Gauntlet\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Account\AuthenticationCallback.cshtml" />
     <Content Include="SQL\db.bacpac" />
   </ItemGroup>
   <ItemGroup>

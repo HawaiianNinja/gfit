@@ -14,6 +14,7 @@ using gSculpt.Filters;
 using gSculpt.Models;
 using gSculpt.Facebook;
 using gSculpt.DBLayer;
+using System.Web.Script.Serialization;
 
 namespace gSculpt.Controllers
 {
@@ -33,9 +34,6 @@ namespace gSculpt.Controllers
 
 
 
-
-
-
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -48,6 +46,7 @@ namespace gSculpt.Controllers
             ViewBag.notification = notification == null ? "" : notification;
 
             return View();
+
         }
 
 
@@ -55,12 +54,11 @@ namespace gSculpt.Controllers
         // POST: /Account/logout
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
-            
+            FormsAuthentication.SignOut();            
 
             TempData["notification"] = notification_loggedOut;
 
-            string urlAction = Url.Action("Login");
+            Session.Clear();
 
             return RedirectToAction("Login");
         }
@@ -87,29 +85,21 @@ namespace gSculpt.Controllers
 
             bool loginSucceeded = result.IsSuccessful;
             
-            /*
-             * Do some login validation
-             */
+
 
             if (!loginSucceeded)
             {
                 TempData["notification"] = notification_failedLogin;
-                RedirectToAction("Login");
+                return RedirectToAction("Login");
             }
 
                         
-            //give them a unique UserID (facebook/userID)
-            //we can leave this like that
             var provider = result.Provider;
             var facebookUid = result.ProviderUserId;
             var username = result.UserName;
-
             var accessToken = result.ExtraData["access_token"];
             
-
-            //get a long lived access token
             var longLivedToken = FacebookBusinessLayer.GetLongLivedAccessToken(accessToken);
-
 
 
             var account = AccountDBLayer.Instance.GetAccountFromDB(facebookUid);
@@ -125,8 +115,17 @@ namespace gSculpt.Controllers
 
 
             //log them in with FormsAuthentication 
-            FormsAuthentication.SetAuthCookie(facebookUid, false);
+            FormsAuthentication.SetAuthCookie(facebookUid, true);
             Session["account"] = account;
+
+            JavaScriptSerializer s = new JavaScriptSerializer();
+            
+            HttpCookie accountCookie = new HttpCookie("accountCookie");
+            accountCookie.Value = account.GetAsJSON();
+            accountCookie.Expires = DateTime.Now.AddMinutes(3600);
+
+            Response.Cookies.Add(accountCookie);          
+            
 
             return RedirectToAction("Index", "Home");
             
@@ -136,51 +135,6 @@ namespace gSculpt.Controllers
 
 
 
-
-        //
-        // POST: /Account/Disassociate
-        /*
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Disassociate(string provider = "Facebook", string providerUserId)
-        {
-            string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
-            ManageMessageId? message = null;
-
-            // Only disassociate the account if the currently logged in user is the owner
-            if (ownerAccount == User.Identity.Name)
-            {
-                // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
-                {
-                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-                    {
-                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                        scope.Complete();
-                        message = ManageMessageId.RemoveLoginSuccess;
-                    }
-                }
-            }
-
-            return RedirectToAction("Manage", new { Message = message });
-        }
-        */
-
-
-
-        //
-        // GET: /Account/Settings
-        // We can use this to manage account settings 
-        [HttpGet]
-        [Authorize]
-        public ActionResult Settings()
-        {
-
-
-            return View();
-
-        }
 
 
 

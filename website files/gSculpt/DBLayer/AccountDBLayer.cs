@@ -78,25 +78,16 @@ namespace gSculpt.DBLayer
         }
 
 
-        private Object GetColValue(DataRow row, string colName)
-        {
-            if(row.IsNull(colName))
-            {
-                return null;
-            }
-
-            return row[colName];
-
-        }
+        
 
 
 
         private List<Account> GetAccountsFromDataTable(DataTable dt)
         {
 
-            if(dt.Rows.Count == null)
+            if(dt.Rows.Count == 0)
             {
-                return null;
+                return new List<Account>();
             }
 
 
@@ -107,18 +98,19 @@ namespace gSculpt.DBLayer
 
                 Account a = new Account();
 
-                a.AccountId = (int) dt.Rows[i]["account_id"];
-                a.Username = (string) dt.Rows[i]["username"];
+                a.AccountId = (int)dt.Rows[i]["account_id"];
+                a.Username = (string)dt.Rows[i]["username"];
 
-                a.Password = (string) GetColValue(dt.Rows[i], "password");
+                a.Password = (string)GetColValue(dt.Rows[i], "password");
+                a.FirstName = (string)GetColValue(dt.Rows[i], "firstName");
+                a.LastName = (string)GetColValue(dt.Rows[i], "lastName");
+                a.DOB = Convert.ToDateTime(GetColValue(dt.Rows[i], "dob"));
+                a.Gender = (string)GetColValue(dt.Rows[i], "gender");
+                a.Provider = (string)GetColValue(dt.Rows[i], "provider_name");
+                a.LongTermAuthToken = (string)GetColValue(dt.Rows[i], "authToken");
+                a.Uid = (string)GetColValue(dt.Rows[i], "Uid");
 
-                a.FirstName = (string)dt.Rows[i]["firstName"];
-                a.LastName = (string)dt.Rows[i]["lastName"];
-                a.DOB = Convert.ToDateTime(dt.Rows[i]["dob"]);
-                a.Gender = (string)dt.Rows[i]["gender"];
-                a.Provider = (string)dt.Rows[i]["provider_name"];
-                a.LongTermAuthToken = (string)dt.Rows[i]["authToken"];
-                a.Uid = (string)dt.Rows[i]["uid"];
+
 
                 list.Add(a);
 

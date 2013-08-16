@@ -6,6 +6,7 @@ using System.Dynamic;
 using Facebook;
 using gSculpt.BusinessLayer;
 using gSculpt.Facebook;
+using System.Web.Script.Serialization;
 
 namespace gSculpt.Models
 {
@@ -106,6 +107,18 @@ namespace gSculpt.Models
             return (DOB != DateTime.MinValue);
             
         }
+
+
+        public string GetAsJSON()
+        {
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+
+            return jss.Serialize(this);
+
+        }
+
+
 
 
 
