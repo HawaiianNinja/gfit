@@ -6,6 +6,16 @@
 
     <div data-role="content">
 
+
+        @if (ViewBag.notification != "")
+        {
+            
+            <div class="notification">
+                @ViewBag.notification
+            </div>
+            
+        }
+        
         <div>
             Welcome to gFit. To use this app you need to log in. We use Facebook authentication to do this. Don't worry, we won't spam your Facbook friends or anything,
         we just don't want to force you to create another account!

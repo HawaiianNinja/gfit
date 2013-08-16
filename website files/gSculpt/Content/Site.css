@@ -1,6 +1,15 @@
-﻿.center-wrapper{
-text-align: center;
+﻿.center-wrapper {
+    text-align: center;
 }
-.center-wrapper * {
-margin: 0 auto;
+
+    .center-wrapper * {
+        margin: 0 auto;
+    }
+
+
+.notification {
+    padding: 10px;
+    margin: 10px;
+    background-color: #98F000;
 }
+

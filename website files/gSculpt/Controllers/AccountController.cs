@@ -21,23 +21,47 @@ namespace gSculpt.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+
+
+        /*
+         * Notifiaction String
+         */
+
+        private const string notification_loggedOut = "You have been logged out of gFit.";
+        private const string notification_failedLogin = "You must allow gFit access on Facebook.";
+
+
+
+
+
+
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login()
         {
-            //view will direct them to LoginWithProvider which will log into facebook
+
+            string notification = TempData["notification"] as string;
+
+            ViewBag.notification = notification == null ? "" : notification;
+
             return View();
         }
 
 
         //
         // POST: /Account/LogOff
-        public ActionResult LogOff()
+        public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session.Abandon();
 
-            return RedirectToAction("Index", "Home");
+            TempData["notification"] = notification_loggedOut;
+
+            string urlAction = Url.Action("Login");
+
+            return Login();
         }
 
         
@@ -68,12 +92,11 @@ namespace gSculpt.Controllers
 
             if (!loginSucceeded)
             {
-                return View("Error");
+                TempData["notification"] = notification_failedLogin;
+                RedirectToAction("Login");
             }
 
-
-
-            
+                        
             //give them a unique UserID (facebook/userID)
             //we can leave this like that
             var provider = result.Provider;
@@ -102,13 +125,12 @@ namespace gSculpt.Controllers
 
             //log them in with FormsAuthentication 
             FormsAuthentication.SetAuthCookie(facebookUid, false);
-            Session["account_id"] = account.AccountId;
-            Session["fb_auth_token"] = account.LongTermAuthToken;
+            Session["account"] = account;
 
+
+            RedirectToAction("Home");
 
             return View();
-
-
 
         }
 

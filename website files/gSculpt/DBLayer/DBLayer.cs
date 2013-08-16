@@ -58,7 +58,7 @@ namespace gSculpt.DBLayer
 
             Connection.Close();
 
-            return new DataTable();
+            return dt;
 
         }
 

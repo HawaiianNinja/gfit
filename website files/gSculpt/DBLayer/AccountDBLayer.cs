@@ -62,7 +62,7 @@ namespace gSculpt.DBLayer
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
 
-            AddSqlParameter(sqlParameters, "@uid", uid);
+            AddSqlParameter(sqlParameters, "@Uid", uid);
 
             DataTable dt = GetDataTableFromStoredProcedure("usp_getAccountByOAuthUid", sqlParameters);
 
@@ -74,6 +74,18 @@ namespace gSculpt.DBLayer
             Account a = GetAccountsFromDataTable(dt)[0];
 
             return a;
+
+        }
+
+
+        private Object GetColValue(DataRow row, string colName)
+        {
+            if(row.IsNull(colName))
+            {
+                return null;
+            }
+
+            return row[colName];
 
         }
 
@@ -97,7 +109,9 @@ namespace gSculpt.DBLayer
 
                 a.AccountId = (int) dt.Rows[i]["account_id"];
                 a.Username = (string) dt.Rows[i]["username"];
-                a.Password = (string) dt.Rows[i]["password"];
+
+                a.Password = (string) GetColValue(dt.Rows[i], "password");
+
                 a.FirstName = (string)dt.Rows[i]["firstName"];
                 a.LastName = (string)dt.Rows[i]["lastName"];
                 a.DOB = Convert.ToDateTime(dt.Rows[i]["dob"]);

@@ -1,4 +1,6 @@
-﻿<div data-role="page">
+﻿@Model = gSculpt.Models.Account;
+
+<div data-role="page">
     <div data-role="header">
                 
         <h1>gFIT</h1>
@@ -8,14 +10,22 @@
 
     <div data-role="content">
         
-        <ul>
 
-            <li>Today's Gauntlets</li>
-            <li>Gauntlet History</li>
-            <li>Settings</li>
-            
-        </ul>
-        <a href="/Gauntlet" data-transition="flip">Test 1</a>
+
+        <div data-role="controlgroup">
+            <a href="#" data-role="button">Daily Gauntlets</a>
+
+
+            <a href="#" data-role="button">Friend Challenges</a>
+
+
+            <a 
+                href="@Url.Action("Logout", "Account")"
+                data-role="button">
+                Logout
+            </a>
+        </div>
+
 
     </div>
 
