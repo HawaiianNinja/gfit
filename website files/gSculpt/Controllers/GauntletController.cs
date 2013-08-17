@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using gSculpt.Models;
+using gSculpt.DBLayer;
 
 namespace gSculpt.Controllers
 {
@@ -13,6 +14,8 @@ namespace gSculpt.Controllers
         
         public ActionResult Index()
         {
+
+            List<Gauntlet> gfitGauntlet = GauntletDBLayer.Instance.GetTodaysGauntletsFromDB();
 
             return View();
 
@@ -24,8 +27,6 @@ namespace gSculpt.Controllers
 
         public ActionResult Details(int id)
         {
-
-
 
             return View(new Gauntlet());
 
