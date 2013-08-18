@@ -1,9 +1,11 @@
 ﻿.center-wrapper {
     text-align: center;
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
     .center-wrapper * {
-        margin: 0 auto;
+        margin: 0 auto;        
     }
 
 
@@ -15,6 +17,56 @@
 
 .gauntlet-display {
 
-    border: 1px solid #000000;
+    background-color: #343434;
+    color: white;    
+    border-radius: 0.2em;
+    padding: 6px;
+    height:60px;
 
 }
+
+    .gauntlet-display .leftbar-easy {
+        width: 6px;
+        height: 100%;
+        float: left;
+        margin-right: 6px;
+        background-color: #00ff21;
+    }
+
+    .gauntlet-display .leftbar-medium {
+        width: 6px;
+        height: 100%;
+        float: left;
+        margin-right: 6px;
+        background-color: #ffd800;
+    }
+
+    .gauntlet-display .leftbar-hard {
+        width: 6px;
+        height: 100%;
+        float: left;
+        margin-right: 6px;
+        background-color: #FF0000;
+    }
+
+
+
+
+
+
+    .gauntlet-display .title {
+        white-space: nowrap;
+        font-size: larger;
+        overflow:hidden;
+        text-overflow:ellipsis;
+
+    }
+
+    .gauntlet-display .details {
+        margin-top:6px;
+    }
+
+        .gauntlet-display .details .item {
+            font-weight: bold;
+            font-size: 12px;
+        }

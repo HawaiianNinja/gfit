@@ -10,15 +10,33 @@ data-add-back-btn="true"
 
     <div class="gauntlet-display">
 
-        @Model.Id
-        @Model.Excercise
-        @Model.Reps
-        @Model.DateCreated
-        @Model.DateAssigned
+        <div class="leftbar-@Model.DifficultyRange.ToLower()">
+            
+        </div>
+
+        <div class="title">
+            @Model.Reps
+            @Model.Excercise
+        </div>
+
+        <div class="details">
+            <div class="item">
+                Difficulty: @Model.DifficultyRange
+            </div>
+            <div class="item">
+                Base Points: @Model.BasePoints
+            </div>
+        </div>
 
 
     </div>
 
+}
 
+
+@section Footer{
+<div class="center-wrapper">
+        <a href="#" data-role="button">Pick Up</a>
+    </div>
 
 }
