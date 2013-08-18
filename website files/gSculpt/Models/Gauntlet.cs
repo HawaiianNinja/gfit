@@ -16,6 +16,40 @@ namespace gSculpt.Models
         public DateTime DateAssigned { get; set; }
 
 
+        public int BasePoints
+        {
+            get
+            {
+                return (int)Math.Round((Reps * Difficulty)/100.0)*100;
+            }
+            set { }
+        }
+
+        public string DifficultyRange
+        {
+            get
+            {
+                if (BasePoints < 400)
+                {
+                    return "Easy";
+                }
+                else if (BasePoints < 700)
+                {
+                    return "Medium";
+                }
+                else
+                {
+                    return "Hard";
+                }
+
+            }
+
+            set { }
+        }
+
+               
+
+
         public Gauntlet() { }
 
 
