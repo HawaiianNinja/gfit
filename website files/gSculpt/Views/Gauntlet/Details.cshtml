@@ -1,17 +1,24 @@
 ﻿@model gSculpt.Models.Gauntlet
 
 
-<!DOCTYPE html>
+@section BackButton{
+data-add-back-btn="true"
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        @Model.arbritrary 
+@section Content{
+
+
+    <div class="gauntlet-display">
+
+        @Model.Id
+        @Model.Excercise
+        @Model.Reps
+        @Model.DateCreated
+        @Model.DateAssigned
+
 
     </div>
-</body>
-</html>
+
+
+
+}

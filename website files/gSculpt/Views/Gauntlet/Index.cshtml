@@ -1,42 +1,35 @@
 ﻿@{
     ViewBag.Title = "GFit - Today's Gauntlets";
 }
-
-
-<div data-role="page" data-add-back-btn="true">
-    <div data-role="header">
-
-        <h1>gFIT</h1>
-
-
-    </div>
-
-    <div data-role="content">
+@model IEnumerable<gSculpt.Models.Gauntlet>
 
 
 
-        <ul data-role="listview" data-inset="true">
-            <li data-role="list-divider">gFit's Daily Gauntlets</li>
-
-            <li><a href="#">Easy Gauntlet</a></li>
-            <li><a href="#">Medium Gauntlet</a></li>
-            <li><a href="#">Hard Gauntlet</a></li>
-
-            <li data-role="list-divider">Friends Gauntlets</li>
-            <li><a href="#">Friend1's Gauntlet</a></li>
-            <li><a href="#">Friend2's Gauntlet</a></li>
-            <li><a href="#">Friend3's Gauntlet</a></li>
-            <li><a href="#">Friend4's Gauntlet</a></li>
+@section BackButton{
+data-add-back-btn="true"
+}
 
 
+@section Content{
 
-        </ul>
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">gFit's Daily Gauntlets</li>
+
+        @foreach (var g in Model)
+        {
+            @Html.Partial("_GFitGauntletListItem", g);
+        }
 
 
-    </div>
+
+        <li data-role="list-divider">Friends Gauntlets</li>
+        <li><a href="#">Coming Soon</a></li>
+        <li><a href="#">Coming Soon</a></li>
+        <li><a href="#">Coming Soon</a></li>
+        <li><a href="#">Coming Soon</a></li>
 
 
-</div>
 
-<div data-role="footer" data-position="fixed">Footer</div>
+    </ul>
 
+}

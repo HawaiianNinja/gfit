@@ -10,7 +10,11 @@
 .notification {
     border: 1px solid #808080;
     padding: 10px;
-    margin: 6px;
     background-color: #FFFF82;
 }
 
+.gauntlet-display {
+
+    border: 1px solid #000000;
+
+}

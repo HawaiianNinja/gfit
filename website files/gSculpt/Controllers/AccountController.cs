@@ -81,15 +81,17 @@ namespace gSculpt.Controllers
         public ActionResult AuthenticationCallback()
         {
 
-            var result = OAuthWebSecurity.VerifyAuthentication();
+            
+            var result = OAuthWebSecurity.VerifyAuthentication();            
 
             bool loginSucceeded = result.IsSuccessful;
             
-
-
+            
             if (!loginSucceeded)
             {
+
                 TempData["notification"] = notification_failedLogin;
+
                 return RedirectToAction("Login");
             }
 

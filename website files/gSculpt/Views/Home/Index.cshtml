@@ -1,38 +1,25 @@
 ﻿@model gSculpt.Models.Account
-<div data-role="page">
-    <div data-role="header">
-
-        <h1>gFIT</h1>
 
 
-    </div>
+@section Content{
 
-    <div data-role="content">
-
-
-
-        <ul data-role="listview" data-inset="true">
-            <li data-role="list-divider">Welcome 
+    <ul data-role="listview" data-inset="true">
+        <li data-role="list-divider">Welcome 
                 @(Model.Gender.ToLower() == "female" ? "Ms. " : "Mr. ")
-                @Model.LastName
-                (@Model.Username)                
-            </li>
+            @Model.LastName
+            (@Model.Username)                
+        </li>
 
-            <li><a href="@Url.Action("Index", "Gauntlet")">Pick Up a Gauntlet</a></li>
-            <li><a href="#">Throw Down a Gauntlet</a></li>
-            <li><a href="@Url.Action("Logout", "Account")">Logout</a></li>
-
-
-        </ul>
+        <li><a href="@Url.Action("Index", "Gauntlet")">Pick Up a Gauntlet</a></li>
+        <li><a href="#">Throw Down a Gauntlet</a></li>
+        <li><a href="@Url.Action("Logout", "Account")">Logout</a></li>
 
 
-    </div>
+    </ul>
 
 
-    <div data-role="footer" data-position="fixed"></div>
+}
 
-
-</div>
 
 
 

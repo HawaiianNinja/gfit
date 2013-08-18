@@ -15,9 +15,9 @@ namespace gSculpt.Controllers
         public ActionResult Index()
         {
 
-            List<Gauntlet> gfitGauntlet = GauntletDBLayer.Instance.GetTodaysGauntletsFromDB();
+            List<Gauntlet> lg = GauntletDBLayer.Instance.GetTodaysGauntlets();
 
-            return View();
+            return View(lg);
 
         }
 
@@ -28,7 +28,9 @@ namespace gSculpt.Controllers
         public ActionResult Details(int id)
         {
 
-            return View(new Gauntlet());
+            Gauntlet g = GauntletDBLayer.Instance.GetGauntlet(id);
+
+            return View(g);
 
         }
 

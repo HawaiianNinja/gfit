@@ -37,10 +37,8 @@ namespace gSculpt.DBLayer
 
 
 
-        public List<Gauntlet> GetTodaysGauntletsFromDB()
+        public List<Gauntlet> GetTodaysGauntlets()
         {
-
-
 
             DataTable dt = GetDataTableFromStoredProcedure("usp_getGauntletByDate", new List<SqlParameter>());
 
@@ -56,8 +54,7 @@ namespace gSculpt.DBLayer
 
 
 
-
-        public Gauntlet GetGauntletFromDB(int gauntlet_id){
+        public Gauntlet GetGauntlet(int gauntlet_id){
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
 

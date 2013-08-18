@@ -1,4 +1,5 @@
 ﻿using DotNetOpenAuth.AspNet;
+using gSculpt.DBLayer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,9 @@ namespace gSculpt.Facebook
 
         private const string AppID = "296587703816145";
         private const string AppSecret = "5ddf5f4419c40cb6528160ffdaa56623";
+
+
+        private string RedirectUri = "";
 
 
 
@@ -78,24 +82,39 @@ namespace gSculpt.Facebook
             Scope.Add("user_birthday");
 
 
+            RedirectUri = HttpUtility.UrlEncode(returnUrl.ToString());
 
-            string url = baseUrl + AppID + "&redirect_uri=" + HttpUtility.UrlEncode(returnUrl.ToString()) + "&" + BuildScopeString();
+            string url = baseUrl + AppID + "&redirect_uri=" + RedirectUri + "&" + BuildScopeString();
+
+
             context.Response.Redirect(url);
         }
 
 
         public AuthenticationResult VerifyAuthentication(System.Web.HttpContextBase context)
         {
+           
+            
+
+            //string rawUrl = context.Request.Url.OriginalString;
+            ////From this we need to remove code portion
+            //rawUrl = Regex.Replace(rawUrl, "&code=[^&]*", "");
+            //rawUrl = Regex.Replace(rawUrl, ":80", "");
+            //RedirectUri = rawUrl;
+
+
+            //IDictionary<string, string> userData = GetUserData(code, rawUrl);
+
+
             string code = context.Request.QueryString["code"];
+            IDictionary<string, string> userData = GetUserData(code);
 
-            string rawUrl = context.Request.Url.OriginalString;
-            //From this we need to remove code portion
-            rawUrl = Regex.Replace(rawUrl, "&code=[^&]*", "");
-
-            IDictionary<string, string> userData = GetUserData(code, rawUrl);
-
-            if (userData == null)
-                return new AuthenticationResult(false, ProviderName, null, null, null);
+            
+            if (userData == null || userData.Count == 0)
+            {
+                LogDBLayer.Instance.AddToLog("Redirect Uri: " + RedirectUri);
+                return new AuthenticationResult(false, ProviderName, null, null, userData);
+            }
 
             string id = userData["id"];
             string username = userData["username"];
@@ -141,15 +160,27 @@ namespace gSculpt.Facebook
         }
 
 
-        private IDictionary<string, string> GetUserData(string accessCode, string redirectURI)
+        private IDictionary<string, string> GetUserData(string accessCode)
         {
 
-            string token = GetHTML(graphApiToken + "client_id=" + AppID + "&redirect_uri=" + HttpUtility.UrlEncode(redirectURI) + "&client_secret=" + AppSecret + "&code=" + accessCode);
+
+
+            string tokenUrl = graphApiToken + "client_id=" + AppID + "&redirect_uri=" + RedirectUri + "&client_secret=" + AppSecret + "&code=" + accessCode;
+
+            LogDBLayer.Instance.AddToLog("tokenUrl: " + tokenUrl);
+
+
+            string token = GetHTML(tokenUrl);
+
+            Dictionary<string, string> userData = new Dictionary<string,string>();
 
 
             if (token == null || token == "")
             {
-                return null;            
+                LogDBLayer.Instance.AddToLog("Redirect URI from GetUserData: " + RedirectUri);                
+                LogDBLayer.Instance.AddToLog("tokenUrl: " + tokenUrl);                
+                return userData;
+
             }
 
 
@@ -160,7 +191,7 @@ namespace gSculpt.Facebook
             string data = GetHTML(dataUrl);
 
             // this dictionary must contains
-            Dictionary<string, string> userData = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
+            userData = JsonConvert.DeserializeObject<Dictionary<string, string>>(data);
             userData.Add("access_token", accessToken);
 
             return userData;

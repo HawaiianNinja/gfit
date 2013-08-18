@@ -44,6 +44,7 @@ namespace gSculpt
                         ));
 
             bundles.Add(new StyleBundle("~/Content/themes/custom/css").Include(
+                        "~/Content/themes/custom/jquery.mobile.structure-{version}.css",
                         "~/Content/themes/custom/jquerymobile_customtheme1.css"));
 
         }

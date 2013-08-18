@@ -12,15 +12,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/custom/css")
-
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile.structure-1.3.2.min.css" />
-
-
     @Scripts.Render("~/bundles/modernizr")
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquerymobile")
 
@@ -32,7 +26,52 @@
 
 <body>
 
-    @RenderBody()
+
+
+    <div 
+        data-role="page" 
+        @RenderSection("BackButton", false)>
+
+
+        <div data-role="header">
+
+            @if (IsSectionDefined("Header"))
+            {
+                @RenderSection("Header")
+            }
+            else
+            {
+                <div class="ui-title">
+                    <img src="~/Images/logo.png" />
+                </div>   
+                
+            }
+
+        </div>
+
+
+        <div data-role="content">
+
+            @RenderSection("Content")
+
+        </div>
+
+
+        <div data-role="footer" data-position="fixed">
+
+            @if (IsSectionDefined("Footer"))
+            {
+                @RenderSection("Footer")
+            }
+            else
+            {
+                <h1></h1>   
+            }
+
+        </div>
+
+
+    </div>
 
 
 
