@@ -89,7 +89,6 @@ namespace gSculpt.DBLayer
             for (int i = 0; i < dt.Rows.Count; i++)
             {
 
-
                 Gauntlet g = new Gauntlet
                 {
                     Id = (int)GetColValue(dt.Rows[i], "id"),
