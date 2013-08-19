@@ -36,7 +36,7 @@ namespace gSculpt.DBLayer
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
             AddSqlParameter(sqlParameters, "@set_id", setId);
 
-            DataTable dt = GetDataTableFromStoredProcedure("usp_getSetById", sqlParameters);
+            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getSetById", sqlParameters);
 
             if (dt.Rows.Count == 0)
             {
@@ -46,6 +46,25 @@ namespace gSculpt.DBLayer
             Set gs = GetSetsFromDataTable(dt)[0];
 
             return gs;
+
+        }
+
+
+        public List<Set> GetSetsByAccountAndGauntlet(int accountId, int gauntletId)
+        {
+
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            AddSqlParameter(sqlParameters, "@account_id", accountId);
+            AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
+
+            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getGauntletSetsByAccount", sqlParameters);
+
+            if (dt.Rows.Count == null)
+            {
+                return new List<Set>();
+            }
+
+            return GetSetsFromDataTable(dt);
 
         }
 

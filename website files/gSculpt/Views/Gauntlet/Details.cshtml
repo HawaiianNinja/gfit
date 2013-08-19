@@ -1,4 +1,4 @@
-﻿@model gSculpt.Models.Gauntlet
+﻿@model gSculpt.Models.Base.Gauntlet
 
 
 @section BackButton{
@@ -32,11 +32,11 @@ data-add-back-btn="true"
     </di>
 
 }
-
+        id = 
 
 @section Footer{
 <div class="center-wrapper">
-        <a href="#" data-role="button">Pick Up</a>
+        <a href="@Url.Action("TakeGauntlet", "Gauntlet", new { id = Model.Id })" data-role="button">Pick Up</a>
     </div>
 
 }

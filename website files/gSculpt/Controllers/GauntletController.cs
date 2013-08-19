@@ -45,13 +45,21 @@ namespace gSculpt.Controllers
             GauntletParticipation p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
+            p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.AccountId, p.Gauntlet.Id);
 
-                
+
+            Set setToDo = new Set();
+            if (p.HasIncompleteSet)
+            {
+                setToDo = p.IncompleteSet;
+            }
+            else if (!p.IsComplete)
+            {
+                setToDo = SetDBLayer.Instance.GetNewSet(p.Account.AccountId, p.Gauntlet.Id);
+                p.Sets.Add(setToDo);
+            }
 
 
-            Set s = SetDBLayer.Instance.GetNewSet(p.Account.AccountId, p.Gauntlet.Id);
-
-            
 
 
             return View();
