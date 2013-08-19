@@ -170,6 +170,7 @@
     <Compile Include="DBLayer\AccountDBLayer.cs" />
     <Compile Include="DBLayer\GauntletDBLayer.cs" />
     <Compile Include="DBLayer\LogDBLayer.cs" />
+    <Compile Include="DBLayer\SetDBLayer.cs" />
     <Compile Include="Facebook\FacebookBusinessLayer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GauntletController.cs" />
@@ -180,8 +181,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Gauntlet.cs" />
-    <Compile Include="Models\GauntletSet.cs" />
+    <Compile Include="Models\Base\Gauntlet.cs" />
+    <Compile Include="Models\Base\GauntletSet.cs" />
+    <Compile Include="Models\Composite\GauntletParticipation.cs" />
     <Compile Include="Models\ViewModels\AccountViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace gSculpt.Models
+namespace gSculpt.Models.Base
 {
     public class Gauntlet
     {
@@ -16,14 +16,18 @@ namespace gSculpt.Models
         public DateTime DateAssigned { get; set; }
 
 
+
+
         public int BasePoints
         {
             get
             {
-                return (int)Math.Round((Reps * Difficulty)/100.0)*100;
+                return (int)Math.Round((Reps * Difficulty) / 100.0) * 100;
             }
             set { }
         }
+
+
 
         public string DifficultyRange
         {
@@ -46,15 +50,10 @@ namespace gSculpt.Models
 
             set { }
         }
-
-               
+        
 
 
         public Gauntlet() { }
-
-
-
-            
 
 
     }

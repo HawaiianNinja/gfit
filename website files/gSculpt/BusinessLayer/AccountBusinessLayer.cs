@@ -6,64 +6,40 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using gSculpt.Models;
+using Newtonsoft.Json;
 
 namespace gSculpt.BusinessLayer
 {
     public static class AccountBusinessLayer
     {
-        public static Account GetUserByFbUid(string uid)
+
+
+        public static Account GetCurrentAccount()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["LocalSQLExpress"].ConnectionString;
-            Account user;
-            using (var con = new SqlConnection(connectionString))
+            Account currentAccount = HttpContext.Current.Session["account"] as Account;
+
+
+            if (currentAccount == null)
             {
-                var cmd = new SqlCommand("dbo.usp_getAccountByFacebookUid", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@FacebookUid", uid));
-                con.Open();
-                var rdr = cmd.ExecuteReader();
-                if (!rdr.HasRows)
+
+                HttpCookie accountCookie = new HttpCookie("accountCookie");
+                accountCookie = HttpContext.Current.Request.Cookies["accountCookie"];
+
+                try
+                {
+                    currentAccount = JsonConvert.DeserializeObject<Account>(accountCookie.Value);
+                }
+                catch (Exception e)
                 {
                     return null;
                 }
-                rdr.Read();
-                user = new Account
-                           {
-                               Username = rdr["username"].ToString(),
-                               FirstName = rdr["firstName"].ToString(),
-                               LastName = rdr["lastName"].ToString(),
-                               DOB = (DateTime)rdr["dob"],
-                               Gender = rdr["gender"].ToString(),
-                               Uid = rdr["fbUserId"].ToString(),
-                               LongTermAuthToken = rdr["fbAuthToken"].ToString(),
-                               //Created = (DateTime)rdr["dateCreated"],
-                               //LastAccessed = (DateTime)rdr["dateLastAccessed"]
-                           };
+                                
             }
-            return user;
+
+            return currentAccount;
+
         }
 
-        public static bool AddAccount(Account acc)
-        {
 
-
-            var connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            int result;
-            using (var con = new SqlConnection(connectionString))
-            {
-                var cmd = new SqlCommand("dbo.usp_addAccount", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(new SqlParameter("@username", acc.Username));
-                cmd.Parameters.Add(new SqlParameter("@firstname", acc.FirstName));
-                cmd.Parameters.Add(new SqlParameter("@lastname", acc.LastName));
-                cmd.Parameters.Add(new SqlParameter("@dob", acc.DOB));
-                cmd.Parameters.Add(new SqlParameter("@gender", acc.Gender));
-                cmd.Parameters.Add(new SqlParameter("@fbUserId", acc.Uid));
-                cmd.Parameters.Add(new SqlParameter("@fbAuthToken", acc.LongTermAuthToken));
-                con.Open();
-                result = cmd.ExecuteNonQuery();
-            }
-            return result == 1;
-        }
     }
 }

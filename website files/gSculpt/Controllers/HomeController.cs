@@ -1,4 +1,5 @@
-﻿using gSculpt.Models;
+﻿using gSculpt.BusinessLayer;
+using gSculpt.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,31 +15,12 @@ namespace gSculpt.Controllers
         public ActionResult Index()
         {
 
-            Account currentAccount = Session["account"] as Account;
-
+            Account currentAccount = AccountBusinessLayer.GetCurrentAccount();
 
             if (currentAccount == null)
             {
-
-                HttpCookie accountCookie = new HttpCookie("accountCookie");
-                accountCookie = Request.Cookies["accountCookie"];
-
-                try
-                {
-                    currentAccount = JsonConvert.DeserializeObject<Account>(accountCookie.Value);
-                }
-                catch (Exception e)
-                {
                     return RedirectToAction("Login", "Account");
-                }
-
-                if (currentAccount == null)
-                {
-                    return RedirectToAction("Login", "Account");
-                }
             }
-
-
 
             return View(currentAccount);
 

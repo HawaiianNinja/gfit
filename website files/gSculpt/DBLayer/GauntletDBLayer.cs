@@ -1,4 +1,5 @@
 ﻿using gSculpt.Models;
+using gSculpt.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -54,7 +55,8 @@ namespace gSculpt.DBLayer
 
 
 
-        public Gauntlet GetGauntlet(int gauntlet_id){
+        public Gauntlet GetGauntlet(int gauntlet_id)
+        {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
 
@@ -72,6 +74,10 @@ namespace gSculpt.DBLayer
             return g;
 
         }
+
+
+  
+
 
 
 
@@ -109,10 +115,15 @@ namespace gSculpt.DBLayer
 
         }
 
-
-
-
+        
 
 
     }
+
+
+
+
+
+
+
 }
