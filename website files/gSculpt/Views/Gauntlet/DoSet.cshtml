@@ -1,0 +1,42 @@
+﻿@model gSculpt.Models.Composite.GauntletParticipation
+
+@{
+    ViewBag.Title = "TakeGauntlet";
+}
+
+
+
+@section Content
+{
+
+    <form>
+        @Html.AntiForgeryToken()
+        <ul data-role="listview" data-inset="true">
+            <li data-role="list-divider">Hurry! Do some @Model.Gauntlet.Excercise!</li>
+            <li>Reps Left: @Model.RepsLeft</li>            
+            <li data-role="fieldcontain" data-inline="false">
+                <label for="reps" style="margin-right:10px;">Reps This Set</label>
+                
+                <input type="range" 
+                    data-inline="false"
+                    name="reps" 
+                    id="repsSlider" 
+                    min="1" 
+                    max="@Model.RepsLeft" 
+                    data-highlight="true"
+                    value="1">
+            </li>
+            <li>
+
+
+                        <button type="submit" data-inline="true">Submit</button>
+
+
+            </li>
+
+
+        </ul>
+
+    </form>
+
+}

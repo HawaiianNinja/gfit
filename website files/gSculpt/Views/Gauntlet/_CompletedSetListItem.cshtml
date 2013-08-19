@@ -1,0 +1,13 @@
+﻿@model gSculpt.Models.Base.Set
+
+
+
+@{
+    var timeMin = Model.TotalTime.Minutes;
+    var timeSec = Model.TotalTime.Seconds%60;
+}
+
+
+<li>@Model.NumReps | @timeMin min, @timeSec s</li>
+
+

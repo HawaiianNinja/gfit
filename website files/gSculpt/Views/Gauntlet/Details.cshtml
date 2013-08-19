@@ -29,14 +29,14 @@ data-add-back-btn="true"
         </div>
 
 
-    </di>
+    </div>
 
 }
         id = 
 
 @section Footer{
 <div class="center-wrapper">
-        <a href="@Url.Action("TakeGauntlet", "Gauntlet", new { id = Model.Id })" data-role="button">Pick Up</a>
+        <a href="@Url.Action("DoSet", "Gauntlet", new { id = Model.Id })" data-role="button">Pick Up</a>
     </div>
 
 }

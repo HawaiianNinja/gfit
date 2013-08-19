@@ -54,6 +54,17 @@ namespace gSculpt.Models.Composite
         }
 
 
+
+        public int RepsLeft
+        {
+            get
+            {
+                return Gauntlet.Reps - TotalReps;
+            }
+            set { }
+        }
+
+
         public int TotalReps
         {
             get
@@ -119,6 +130,11 @@ namespace gSculpt.Models.Composite
                 {
                     return false;
                 }
+
+                //check that if GauntletParticipation is complete
+                //it can't have any incomplete sets
+                if (IsComplete && HasIncompleteSet)
+                    return false;
 
                 //check that each set is valid
                 foreach (Set s in Sets)

@@ -18,7 +18,7 @@ namespace gSculpt.DBLayer
 
         public DBLayer()
         {
-            ConnectionString = ConfigurationManager.ConnectionStrings["LocalSQLExpress"].ConnectionString;
+            ConnectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
             Connection = new SqlConnection(ConnectionString);
         }
 

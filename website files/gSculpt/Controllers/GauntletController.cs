@@ -39,7 +39,7 @@ namespace gSculpt.Controllers
         }
 
 
-        public ActionResult TakeGauntlet(int id)
+        public ActionResult DoSet(int id)
         {
 
             GauntletParticipation p = new GauntletParticipation();
@@ -62,7 +62,7 @@ namespace gSculpt.Controllers
 
 
 
-            return View();
+            return View(p);
         }
 
 
