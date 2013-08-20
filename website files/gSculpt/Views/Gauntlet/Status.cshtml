@@ -1,0 +1,79 @@
+﻿@model gSculpt.Models.Composite.GauntletParticipation
+
+
+
+@section BackButton{
+data-add-back-btn="true"
+}
+
+@section Content{
+
+    @{
+        string barColor;
+        if (!Model.IsStarted)
+        {
+            barColor = "red";
+        }
+        else if (Model.InProgress)
+        {
+            barColor = "yellow";
+        }
+        else
+        {
+            barColor = "green";
+        }
+    }
+
+
+    <div class="gauntlet-display">
+
+        <div class="leftbar-@barColor">
+        </div>
+
+        <div class="title">
+            @Model.Gauntlet.Reps
+            @Model.Gauntlet.Excercise
+        </div>
+
+        <div class="details">
+            <div class="item">
+                Difficulty: @Model.Gauntlet.DifficultyRange
+            </div>
+            <div class="item">
+                Base Points: @Model.Gauntlet.BasePoints
+            </div>
+        </div>
+
+
+    </div>
+
+}
+
+
+@section Footer{
+
+    <div class="center-wrapper">
+
+        @if (!Model.IsStarted)
+        {
+            <a href="@Url.Action("DoSet", "Gauntlet", new { id = Model.Gauntlet.Id })" 
+                data-role="button" 
+                data-inline="true" 
+                data-icon="arrow-r" 
+                data-iconpos="right">Start
+            </a>    
+        }
+
+        @if (Model.InProgress)
+        {
+            <a href="@Url.Action("DoSet", "Gauntlet", new { id = Model.Gauntlet.Id })" 
+                data-role="button" 
+                data-inline="true" 
+                data-icon="arrow-r" 
+                data-iconpos="right">Continue
+            </a>  
+        }
+
+    </div>
+
+}

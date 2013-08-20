@@ -29,12 +29,16 @@ namespace gSculpt.Controllers
 
 
 
-        public ActionResult Details(int id)
+        public ActionResult Status(int id)
         {
+            GauntletParticipation p = new GauntletParticipation();
+            p.Account = AccountBusinessLayer.GetCurrentAccount();
+            p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
+            p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
 
-            Gauntlet g = GauntletDBLayer.Instance.GetGauntlet(id);
+                       
 
-            return View(g);
+            return View(p);
 
         }
 
@@ -45,25 +49,44 @@ namespace gSculpt.Controllers
             GauntletParticipation p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
-            p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.AccountId, p.Gauntlet.Id);
+            p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
 
 
-            Set setToDo = new Set();
-            if (p.HasIncompleteSet)
+            if (!p.IsComplete && !p.HasIncompleteSet)
             {
-                setToDo = p.IncompleteSet;
-            }
-            else if (!p.IsComplete)
-            {
-                setToDo = SetDBLayer.Instance.GetNewSet(p.Account.AccountId, p.Gauntlet.Id);
-                p.Sets.Add(setToDo);
+                Set s = SetDBLayer.Instance.GetNewSet(p.Account.Id, p.Gauntlet.Id);
+                p.Sets.Add(s);
             }
 
-
-
-
+            
             return View(p);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DoSet(int numReps, int gauntletId)
+        {
+
+
+            GauntletParticipation p = new GauntletParticipation();
+            p.Account = AccountBusinessLayer.GetCurrentAccount();
+            p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(gauntletId);
+            p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
+
+            Set s = p.IncompleteSet;
+            s.NumReps = numReps;
+            s.EndTime = DateTime.UtcNow;
+            s.Completed = true;
+
+            SetDBLayer.Instance.StoreCompletedSet(s);
+
+            return RedirectToAction("Status", "Gauntlet", new { id = gauntletId});
+        }
+
+
+
+
+
 
 
 

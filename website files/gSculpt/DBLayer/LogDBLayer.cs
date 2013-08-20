@@ -45,7 +45,7 @@ namespace gSculpt.DBLayer
 
             AddSqlParameter(list, "@log_text", s);
             
-            return ExecuteNonQuery("usp_addToLog", list);
+            return ExecuteNonQuery("usp_addToLog", list) == 1;
 
         }
 

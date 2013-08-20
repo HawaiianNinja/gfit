@@ -50,7 +50,7 @@ namespace gSculpt.DBLayer
             AddSqlParameter(sqlParameters, "@authToken", account.LongTermAuthToken);
             AddSqlParameter(sqlParameters, "@uid", account.Uid);
 
-            return ExecuteNonQuery("dbo.usp_addAccount", sqlParameters);
+            return ExecuteNonQuery("dbo.usp_addAccount", sqlParameters) == 1;
 
         }
 
@@ -98,7 +98,7 @@ namespace gSculpt.DBLayer
 
                 Account a = new Account();
 
-                a.AccountId = (int)dt.Rows[i]["account_id"];
+                a.Id = (int)dt.Rows[i]["account_id"];
                 a.Username = (string)dt.Rows[i]["username"];
 
                 a.Password = (string)GetColValue(dt.Rows[i], "password");

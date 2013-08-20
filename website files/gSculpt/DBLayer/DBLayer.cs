@@ -18,7 +18,7 @@ namespace gSculpt.DBLayer
 
         public DBLayer()
         {
-            ConnectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+            ConnectionString = ConfigurationManager.ConnectionStrings["LocalSQLExpress"].ConnectionString;
             Connection = new SqlConnection(ConnectionString);
         }
 
@@ -63,7 +63,7 @@ namespace gSculpt.DBLayer
         }
 
 
-        public static bool ExecuteNonQuery(String storedProcedureName, List<SqlParameter> sqlParameters)
+        public static int ExecuteNonQuery(String storedProcedureName, List<SqlParameter> sqlParameters)
         {
 
             Connection.Open();
@@ -77,7 +77,7 @@ namespace gSculpt.DBLayer
 
             Connection.Close();
 
-            return result != 0;
+            return result;
 
 
         }

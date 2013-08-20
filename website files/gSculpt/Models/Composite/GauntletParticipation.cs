@@ -14,6 +14,35 @@ namespace gSculpt.Models.Composite
         public List<Set> Sets { get; set; }
 
 
+
+        public bool IsStarted
+        {
+            get
+            {
+                return Sets.Count != 0;
+            }
+            set { }
+        }
+
+        public bool InProgress
+        {
+            get
+            {
+                return IsStarted && !IsComplete;
+            }
+            set { }
+        }
+
+        public bool IsComplete
+        {
+            get
+            {
+                return TotalReps == Gauntlet.Reps;
+            }
+            set { }
+        }
+
+
         public List<Set> SetsDesc
         {
             get
@@ -98,14 +127,7 @@ namespace gSculpt.Models.Composite
         }
         
 
-        public bool IsComplete
-        {
-            get
-            {
-                return TotalReps == Gauntlet.Reps;
-            }
-            set { }
-        }
+      
 
 
         public bool IsValid

@@ -1,0 +1,23 @@
+﻿** Warnings
+     The object reference [dbo].[ACCOUNTS].[firstname] differs only by case from the object definition
+       [dbo].[ACCOUNTS].[firstName].
+     The object reference [dbo].[ACCOUNTS].[lastname] differs only by case from the object definition
+       [dbo].[ACCOUNTS].[lastName].
+
+** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Drop
+       [dbo].[DF_GFIT_GAUNTLETS_date_created] (Default Constraint)
+     Create
+       [dbo].[usp_storeCompletedSet] (Procedure)
+
+** Supporting actions

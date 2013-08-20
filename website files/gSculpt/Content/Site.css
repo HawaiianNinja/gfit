@@ -25,7 +25,7 @@
 
 }
 
-    .gauntlet-display .leftbar-easy {
+    .gauntlet-display .leftbar-green {
         width: 6px;
         height: 100%;
         float: left;
@@ -33,7 +33,7 @@
         background-color: #00ff21;
     }
 
-    .gauntlet-display .leftbar-medium {
+    .gauntlet-display .leftbar-yellow {
         width: 6px;
         height: 100%;
         float: left;
@@ -41,7 +41,7 @@
         background-color: #ffd800;
     }
 
-    .gauntlet-display .leftbar-hard {
+    .gauntlet-display .leftbar-red {
         width: 6px;
         height: 100%;
         float: left;

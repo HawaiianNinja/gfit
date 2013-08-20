@@ -15,7 +15,7 @@ data-add-back-btn="true"
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">gFit's Daily Gauntlets</li>
 
-        @foreach (var g in Model)
+        @foreach (var g in Model.OrderBy(o => o.BasePoints).ToList<gSculpt.Models.Base.Gauntlet>())
         {
             @Html.Partial("_GFitGauntletListItem", g);
         }

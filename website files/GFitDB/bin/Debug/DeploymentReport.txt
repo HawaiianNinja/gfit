@@ -1,0 +1,50 @@
+﻿** Warnings
+     The object reference [dbo].[ACCOUNTS].[firstname] differs only by case from the object definition
+       [dbo].[ACCOUNTS].[firstName].
+     The object reference [dbo].[ACCOUNTS].[lastname] differs only by case from the object definition
+       [dbo].[ACCOUNTS].[lastName].
+
+** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[ACCOUNT_HAS_OAUTH] (Table)
+       [dbo].[ACCOUNTS] (Table)
+       [dbo].[ACCOUNTS].[IX_USERS_username] (Index)
+       [dbo].[GAUNTLET_SETS] (Table)
+       [dbo].[GFIT_GAUNTLETS] (Table)
+       [dbo].[GFIT_LOG] (Table)
+       [dbo].[OAUTH_PROVIDERS] (Table)
+       [dbo].[DF__ACCOUNTS__dateCr__1273C1CD] (Default Constraint)
+       [dbo].[DF__ACCOUNTS__dateLa__1367E606] (Default Constraint)
+       [dbo].[DF_GAUNTLET_SETS_row_guid] (Default Constraint)
+       [dbo].[DF_GAUNTLET_SETS_numberOfReps] (Default Constraint)
+       [dbo].[DF_GAUNTLET_SETS_startTime] (Default Constraint)
+       [dbo].[DF_GAUNTLET_SETS_completed] (Default Constraint)
+       [dbo].[DF_GFIT_LOG_date_added] (Default Constraint)
+       [dbo].[FK_ACCOUNT_HAS_OAUTH_ACCOUNTS] (Foreign Key)
+       [dbo].[FK_ACCOUNT_HAS_OAUTH_OAUTH_PROVIDERS] (Foreign Key)
+       [dbo].[FK_GAUNTLET_SETS_ACCOUNTS] (Foreign Key)
+       [dbo].[FK_GAUNTLET_SETS_GFIT_GAUNTLETS] (Foreign Key)
+       [dbo].[V_USERS_WITH_PROVIDERS] (View)
+       [dbo].[V_SETS] (View)
+       [dbo].[usp_addAccount] (Procedure)
+       [dbo].[usp_addToLog] (Procedure)
+       [dbo].[usp_deleteAccount] (Procedure)
+       [dbo].[usp_getAccountByAccountID] (Procedure)
+       [dbo].[usp_getAccountByOAuthUid] (Procedure)
+       [dbo].[usp_getGauntletByDate] (Procedure)
+       [dbo].[usp_getGauntletById] (Procedure)
+       [dbo].[usp_getGauntletSetById] (Procedure)
+       [dbo].[usp_getGauntletSetsByAccount] (Procedure)
+       [dbo].[usp_newSet] (Procedure)
+
+** Supporting actions

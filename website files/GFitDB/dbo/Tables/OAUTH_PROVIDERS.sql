@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[OAUTH_PROVIDERS] (
+    [id]            INT           IDENTITY (1, 1) NOT NULL,
+    [provider_name] NVARCHAR (64) NOT NULL,
+    CONSTRAINT [PK_OAUTH_PROVIDERS] PRIMARY KEY CLUSTERED ([id] ASC)
+);
+

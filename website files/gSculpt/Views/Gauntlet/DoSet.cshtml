@@ -8,18 +8,19 @@
 
 @section Content
 {
-
-    <form>
+    @using (Html.BeginForm("DoSet", "Gauntlet", FormMethod.Post))
+    {
+            
         @Html.AntiForgeryToken()
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">Hurry! Do some @Model.Gauntlet.Excercise!</li>
-            <li>Reps Left: @Model.RepsLeft</li>            
+            <li>Reps Left: @Model.RepsLeft</li>
             <li data-role="fieldcontain" data-inline="false">
-                <label for="reps" style="margin-right:10px;">Reps This Set</label>
-                
+                <label for="reps" style="margin-right: 10px;">Reps This Set</label>
+
                 <input type="range" 
                     data-inline="false"
-                    name="reps" 
+                    name="numReps" 
                     id="repsSlider" 
                     min="1" 
                     max="@Model.RepsLeft" 
@@ -29,7 +30,7 @@
             <li>
 
 
-                        <button type="submit" data-inline="true">Submit</button>
+                <button type="submit" data-inline="true">Submit</button>
 
 
             </li>
@@ -37,6 +38,6 @@
 
         </ul>
 
-    </form>
+    }
 
 }

@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gSculpt", "gSculpt\gSculpt.csproj", "{BD23C04E-F34B-4E4A-AC20-7F3BD77FB07D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GFitDB", "GFitDB\GFitDB.sqlproj", "{7E8686F5-811C-4202-9B21-889F0E0D2256}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,12 @@ Global
 		{BD23C04E-F34B-4E4A-AC20-7F3BD77FB07D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD23C04E-F34B-4E4A-AC20-7F3BD77FB07D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD23C04E-F34B-4E4A-AC20-7F3BD77FB07D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E8686F5-811C-4202-9B21-889F0E0D2256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E8686F5-811C-4202-9B21-889F0E0D2256}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E8686F5-811C-4202-9B21-889F0E0D2256}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7E8686F5-811C-4202-9B21-889F0E0D2256}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E8686F5-811C-4202-9B21-889F0E0D2256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E8686F5-811C-4202-9B21-889F0E0D2256}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

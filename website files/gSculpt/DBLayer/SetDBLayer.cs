@@ -50,16 +50,38 @@ namespace gSculpt.DBLayer
         }
 
 
-        public List<Set> GetSetsByAccountAndGauntlet(int accountId, int gauntletId)
+        public bool StoreCompletedSet(Set s)
         {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@account_id", accountId);
+            AddSqlParameter(sqlParameters, "@set_id", s.Id);
+            AddSqlParameter(sqlParameters, "@account_id", s.AccountId);
+            AddSqlParameter(sqlParameters, "@gauntlet_id", s.GauntletId);
+            AddSqlParameter(sqlParameters, "@num_reps", s.NumReps);
+
+            int result = ExecuteNonQuery("dbo.usp_storeCompletedSet", sqlParameters);
+
+            if(result > 1)
+            {
+                throw new DataException("Altered more than one row when row identity should be unique");
+            }
+
+            return result == 1;
+
+        }
+
+
+
+        public List<Set> GetSetsByAccountAndGauntlet(int Id, int gauntletId)
+        {
+
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            AddSqlParameter(sqlParameters, "@account_id", Id);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
             DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getGauntletSetsByAccount", sqlParameters);
 
-            if (dt.Rows.Count == null)
+            if (dt.Rows.Count == 0)
             {
                 return new List<Set>();
             }
@@ -70,11 +92,11 @@ namespace gSculpt.DBLayer
 
 
         
-        public Set GetNewSet(int accountId, int gauntletId)
+        public Set GetNewSet(int Id, int gauntletId)
         {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@account_id", accountId);
+            AddSqlParameter(sqlParameters, "@account_id", Id);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
 
