@@ -45,11 +45,17 @@ namespace gFit.Controllers
 
         public ActionResult DoSet(int id)
         {
-
+            
             GauntletParticipation p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
             p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
+
+
+            if (p.IsComplete)
+            {
+                return RedirectToAction("Status", "Gauntlet", new { id = id });
+            }
 
 
             if (!p.IsComplete && !p.HasIncompleteSet)
@@ -64,7 +70,7 @@ namespace gFit.Controllers
 
 
         //id refers to Gauntlet.Id
-        //can't call this just 'DoSet' because jqueryMobile won't realize
+        //can't call this just [HttpPost]'DoSet' because jqueryMobile won't realize
         //that it redirects to the "Status" action and will think its
         //already on Gauntlet/DoSet/1. This prevents the user from entering 
         //another set once he completes one
@@ -85,7 +91,7 @@ namespace gFit.Controllers
             }
 
             Set s = p.IncompleteSet;
-            s.NumReps = numReps;
+            s.NumReps = Math.Min(numReps,p.RepsLeft);
             s.EndTime = DateTime.UtcNow;
             s.Completed = true;
 

@@ -40,7 +40,9 @@ namespace gFit.Models.Composite
                 return TotalReps == Gauntlet.Reps;
             }
             set { }
+               
         }
+
 
 
         public List<Set> SetsDesc
@@ -172,6 +174,61 @@ namespace gFit.Models.Composite
             set { }
         }
 
+
+        /*
+         * 
+         * STATISTIC CLASSES
+         * 
+         */
+
+        public double AverageRepsPerSet
+        {
+            get
+            {
+                if (Sets.Count == 0)
+                    return 0;
+
+                return Math.Round((TotalReps / Sets.Count) / 10.0) * 10;
+            }
+            set { }
+        }
+
+        public TimeSpan TotalSetTime
+        {
+            get
+            {
+                TimeSpan totalTime = new TimeSpan();
+
+                foreach (Set s in Sets)
+                {
+                    if (s.Completed)
+                    {
+                        totalTime.Add(s.EndTime.Subtract(s.StartTime));
+                    }
+                }
+                return totalTime;
+            }
+            set { }
+        }
+            
+
+        
+
+        public TimeSpan AverageTimePerSet
+        {
+            get
+            {
+                if (Sets.Count == 0)
+                    return TimeSpan.FromTicks(0);
+
+
+                return TimeSpan.FromTicks(TotalSetTime.Ticks/Sets.Count);
+
+            }
+            set { }
+        }
+
+        
 
         
 
