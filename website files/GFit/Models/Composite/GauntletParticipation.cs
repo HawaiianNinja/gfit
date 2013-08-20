@@ -37,7 +37,7 @@ namespace gFit.Models.Composite
         {
             get
             {
-                return TotalReps == Gauntlet.Reps;
+                return TotalRepsCompleted == Gauntlet.Reps;
             }
             set { }
                
@@ -90,13 +90,13 @@ namespace gFit.Models.Composite
         {
             get
             {
-                return Gauntlet.Reps - TotalReps;
+                return Gauntlet.Reps - TotalRepsCompleted;
             }
             set { }
         }
 
 
-        public int TotalReps
+        public int TotalRepsCompleted
         {
             get
             {
@@ -137,7 +137,7 @@ namespace gFit.Models.Composite
             get
             {
                 //check that there aren't too many reps
-                if (TotalReps > Gauntlet.Reps)
+                if (TotalRepsCompleted > Gauntlet.Reps)
                 {
                     return false;
                 }
@@ -188,7 +188,7 @@ namespace gFit.Models.Composite
                 if (Sets.Count == 0)
                     return 0;
 
-                return Math.Round((TotalReps / Sets.Count) / 10.0) * 10;
+                return Math.Round((TotalRepsCompleted / Sets.Count) / 10.0) * 10;
             }
             set { }
         }
@@ -210,9 +210,6 @@ namespace gFit.Models.Composite
             }
             set { }
         }
-            
-
-        
 
         public TimeSpan AverageTimePerSet
         {
@@ -221,9 +218,7 @@ namespace gFit.Models.Composite
                 if (Sets.Count == 0)
                     return TimeSpan.FromTicks(0);
 
-
                 return TimeSpan.FromTicks(TotalSetTime.Ticks/Sets.Count);
-
             }
             set { }
         }
