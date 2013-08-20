@@ -4,10 +4,22 @@
     ViewBag.Title = "TakeGauntlet";
 }
 
-
+@section BackButton{
+data-add-back-btn="true"
+}
 
 @section Content
 {
+
+
+    <div class="timer-block">
+
+        
+        <span class="minutes" data-bind="text: minutes"></span>:<span class="seconds" data-bind="text: seconds"></span>
+
+    </div>
+
+
     @using (Html.BeginForm("DoSetPostBack", "Gauntlet", FormMethod.Post, new { id = Model.Gauntlet.Id }))
     {
             
@@ -39,7 +51,72 @@
 
 
         </ul>
-
     }
 
+
+
+
+}
+
+@section Scripts
+{
+    <script>
+
+        
+
+
+        function AppViewModel() {
+
+            var _dummy = ko.observable();
+
+            var startDate = new Date("@Model.IncompleteSet.StartTime");
+
+            this.minutes = ko.observable();
+            this.seconds = ko.observable();
+
+
+            this.minutes = ko.computed(function () {
+                _dummy();
+                return Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60));
+            }, this);
+
+
+            this.seconds = ko.computed(function () {
+                _dummy();
+                return Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
+            }, this);
+            
+
+            this.poke = function () {
+                _dummy.notifySubscribers();
+            };
+
+
+        }
+
+        var vm = new AppViewModel();
+
+        setInterval(function () {
+            vm.poke();
+        }, 1000);
+
+        // Activates knockout.js        
+        ko.applyBindings(vm);
+        //ko.applyBindings(new AppViewModel());
+
+
+        //function DoSetViewModel() {
+        //    startTime: ko.observable();
+        //    timerValue: ko.observable();
+        //}
+
+        //DoSetViewModel.timerValue("Hello World");
+
+        //ko.applyBindings(new DoSetViewModel());
+
+
+
+    </script>
+
+    
 }

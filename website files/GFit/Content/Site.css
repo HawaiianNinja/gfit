@@ -70,3 +70,12 @@
             font-weight: bold;
             font-size: 12px;
         }
+
+
+.timer-block {
+    border: 1px solid #000000;
+}
+
+    .timer-block .minutes {
+        font-size: 32px;
+    }
