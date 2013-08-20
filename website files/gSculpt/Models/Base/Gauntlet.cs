@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace gSculpt.Models.Base
+namespace gFit.Models.Base
 {
     public class Gauntlet
     {

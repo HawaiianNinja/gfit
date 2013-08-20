@@ -1,5 +1,5 @@
 ﻿using DotNetOpenAuth.AspNet;
-using gSculpt.DBLayer;
+using gFit.DBLayer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Web;
 
 
 
-namespace gSculpt.Facebook
+namespace gFit.Facebook
 {
 
     public class FacebookScopedClient : IAuthenticationClient

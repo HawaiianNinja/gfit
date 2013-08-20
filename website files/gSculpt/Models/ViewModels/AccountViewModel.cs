@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using gSculpt.Models;
+using gFit.Models;
 
-namespace gSculpt.Models.ViewModels
+namespace gFit.Models.ViewModels
 {
     public class AccountViewModel
     {

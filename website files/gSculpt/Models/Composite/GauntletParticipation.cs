@@ -1,10 +1,10 @@
-﻿using gSculpt.Models.Base;
+﻿using gFit.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace gSculpt.Models.Composite
+namespace gFit.Models.Composite
 {
     public class GauntletParticipation
     {

@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Dynamic;
 using Facebook;
-using gSculpt.BusinessLayer;
-using gSculpt.Facebook;
+using gFit.BusinessLayer;
+using gFit.Facebook;
 using System.Web.Script.Serialization;
 
-namespace gSculpt.Models
+namespace gFit.Models
 {
 
 

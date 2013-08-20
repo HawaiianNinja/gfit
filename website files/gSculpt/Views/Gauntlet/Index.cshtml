@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "GFit - Today's Gauntlets";
 }
-@model IEnumerable<gSculpt.Models.Base.Gauntlet>
+@model IEnumerable<gFit.Models.Base.Gauntlet>
 
 
 
@@ -15,7 +15,7 @@ data-add-back-btn="true"
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">gFit's Daily Gauntlets</li>
 
-        @foreach (var g in Model.OrderBy(o => o.BasePoints).ToList<gSculpt.Models.Base.Gauntlet>())
+        @foreach (var g in Model.OrderBy(o => o.BasePoints).ToList<gFit.Models.Base.Gauntlet>())
         {
             @Html.Partial("_GFitGauntletListItem", g);
         }

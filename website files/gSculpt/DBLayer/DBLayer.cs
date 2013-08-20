@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace gSculpt.DBLayer
+namespace gFit.DBLayer
 {
     public abstract class DBLayer
     {

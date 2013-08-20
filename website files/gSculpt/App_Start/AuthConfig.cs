@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Web.WebPages.OAuth;
-using gSculpt.Models;
-using gSculpt.Facebook;
+using gFit.Models;
+using gFit.Facebook;
 
-namespace gSculpt
+namespace gFit
 {
     public static class AuthConfig
     {

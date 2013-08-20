@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using gSculpt.DBLayer;
-using gSculpt.BusinessLayer;
-using gSculpt.Models.Base;
-using gSculpt.Models;
-using gSculpt.Models.Composite;
+using gFit.DBLayer;
+using gFit.BusinessLayer;
+using gFit.Models.Base;
+using gFit.Models;
+using gFit.Models.Composite;
 
-namespace gSculpt.Controllers
+namespace gFit.Controllers
 {
     [Authorize]
     public class GauntletController : Controller

@@ -9,14 +9,14 @@ using DotNetOpenAuth.AspNet;
 using Facebook;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using gSculpt.BusinessLayer;
-using gSculpt.Filters;
-using gSculpt.Models;
-using gSculpt.Facebook;
-using gSculpt.DBLayer;
+using gFit.BusinessLayer;
+using gFit.Filters;
+using gFit.Models;
+using gFit.Facebook;
+using gFit.DBLayer;
 using System.Web.Script.Serialization;
 
-namespace gSculpt.Controllers
+namespace gFit.Controllers
 {
     [Authorize]
     [InitializeSimpleMembership]

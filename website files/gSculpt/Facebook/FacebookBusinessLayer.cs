@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using gSculpt.Models;
+using gFit.Models;
 using System.Dynamic;
 using Microsoft.Web.WebPages.OAuth;
 
-namespace gSculpt.Facebook
+namespace gFit.Facebook
 {
     public static class FacebookBusinessLayer
     {

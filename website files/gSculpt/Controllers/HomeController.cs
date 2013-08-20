@@ -1,5 +1,5 @@
-﻿using gSculpt.BusinessLayer;
-using gSculpt.Models;
+﻿using gFit.BusinessLayer;
+using gFit.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace gSculpt.Controllers
+namespace gFit.Controllers
 {
     public class HomeController : Controller
     {

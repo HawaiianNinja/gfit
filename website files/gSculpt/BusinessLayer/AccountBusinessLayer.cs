@@ -5,10 +5,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using gSculpt.Models;
+using gFit.Models;
 using Newtonsoft.Json;
 
-namespace gSculpt.BusinessLayer
+namespace gFit.BusinessLayer
 {
     public static class AccountBusinessLayer
     {
