@@ -11,8 +11,8 @@ namespace gFit
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/Libraries/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-                        "~/Scripts/Libraries/jquery-ui-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
+                        "~/Scripts/Libraries/knockout-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquerymobile").Include(
                         "~/Scripts/Libraries/jquery.mobile-{version}.js"));

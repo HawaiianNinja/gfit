@@ -231,6 +231,9 @@
     <None Include="Properties\PublishProfiles\gfit - Web Deploy.pubxml" />
     <None Include="Scripts\Libraries\jquery-2.0.3.intellisense.js" />
     <Content Include="Images\logo.png" />
+    <Content Include="Scripts\Gauntlet\DoSet.js" />
+    <Content Include="Scripts\Libraries\knockout-2.3.0.debug.js" />
+    <Content Include="Scripts\Libraries\knockout-2.3.0.js" />
     <Content Include="Scripts\Shared\CommonNav.js" />
     <Content Include="Scripts\Libraries\jquery-2.0.3.js" />
     <Content Include="Scripts\Libraries\jquery-2.0.3.min.js" />
@@ -248,8 +251,6 @@
     <Content Include="Scripts\Libraries\jquery.validate.min.js" />
     <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\Libraries\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\Libraries\knockout-2.1.0.debug.js" />
-    <Content Include="Scripts\Libraries\knockout-2.1.0.js" />
     <Content Include="Scripts\Libraries\modernizr-2.5.3.js" />
     <Content Include="SQL\generateDB.sql" />
     <Content Include="Web.config">
