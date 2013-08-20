@@ -27,7 +27,7 @@ data-add-back-btn="true"
         @Html.AntiForgeryToken()
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">Hurry! Do some @Model.Gauntlet.Excercise!</li>
-            <li>Reps Left: @Model.RepsLeft</li>
+            <li data-bind="text: repsLeft">Reps Left: @Model.RepsLeft</li>
             <li data-role="fieldcontain" data-inline="false">
                 <label for="reps" style="margin-right: 10px;">Reps This Set</label>
 
@@ -39,7 +39,10 @@ data-add-back-btn="true"
                     min="1" 
                     max="@Model.RepsLeft" 
                     data-highlight="true"
-                    value="1">
+                    value="0"
+                    onChange="UpdateRepsLeft()" />
+
+                <input id="hiddenRepsDoneValue" type="hidden" value="0" data-bind="value: repsDone" />
             </li>
             <li>
 
@@ -67,13 +70,13 @@ data-add-back-btn="true"
 
         function AppViewModel() {
 
+            
+
+            //timer bindings
             var _dummy = ko.observable();
-
             var startDate = new Date("@Model.IncompleteSet.StartTime");
-
             this.minutes = ko.observable();
             this.seconds = ko.observable();
-
 
             this.minutes = ko.computed(function () {
                 _dummy();
@@ -85,10 +88,28 @@ data-add-back-btn="true"
                 _dummy();
                 return Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
             }, this);
-            
 
+
+            
+            //repsLeft bindings
+            var _dummy2 = ko.observable();
+
+            this.repsDone = ko.observable(0);
+            this.repsLeft = ko.observable(@Model.RepsLeft);
+            
+            this.repsLeft = ko.computed(function () {
+                _dummy2();
+                return @Model.RepsLeft-$('#repsSlider').val();
+            }, this);
+
+
+            
+            
             this.poke = function () {
                 _dummy.notifySubscribers();
+            };
+            this.poke2 = function () {
+                _dummy2.notifySubscribers();
             };
 
 
@@ -96,24 +117,18 @@ data-add-back-btn="true"
 
         var vm = new AppViewModel();
 
+
+
+        function UpdateRepsLeft() {
+            vm.poke2();
+        }
+              
+
         setInterval(function () {
             vm.poke();
         }, 1000);
-
-        // Activates knockout.js        
+     
         ko.applyBindings(vm);
-        //ko.applyBindings(new AppViewModel());
-
-
-        //function DoSetViewModel() {
-        //    startTime: ko.observable();
-        //    timerValue: ko.observable();
-        //}
-
-        //DoSetViewModel.timerValue("Hello World");
-
-        //ko.applyBindings(new DoSetViewModel());
-
 
 
     </script>
