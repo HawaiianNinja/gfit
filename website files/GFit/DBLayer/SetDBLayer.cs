@@ -99,8 +99,10 @@ namespace gFit.DBLayer
             AddSqlParameter(sqlParameters, "@account_id", Id);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
+            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_newSet", sqlParameters);
 
-            return new Set();
+            return GetSetsFromDataTable(dt)[0];
+            
         }
 
 
