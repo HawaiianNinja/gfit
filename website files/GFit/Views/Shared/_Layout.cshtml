@@ -29,6 +29,7 @@
 
     <div 
         data-role="page" 
+        data-theme="a"
         @RenderSection("BackButton", false)>
 
 
@@ -41,7 +42,7 @@
             else
             {
                 <div class="ui-title">
-                    <img src="~/Images/logo.png" />
+                    <a href="@Url.Action("Index", "Home")"><img src="~/Images/logo.png" /></a>
                 </div>   
                 
             }
@@ -69,13 +70,15 @@
 
         </div>
 
+         @Scripts.Render("~/bundles/knockout")
+
+        @RenderSection("Scripts", false)
+
 
     </div>
 
 
-    @Scripts.Render("~/bundles/knockout")
-
-    @RenderSection("Scripts", false);
+   
 
 </body>
 

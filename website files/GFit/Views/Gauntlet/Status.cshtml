@@ -1,5 +1,6 @@
 ﻿@model gFit.Models.Composite.GauntletParticipation
-
+@using gFit.Models.Base;
+@using gFit.Models.ViewModels;
 
 
 @section BackButton{
@@ -10,42 +11,69 @@ data-add-back-btn="true"
 
     @{
         string barColor;
+        string status;
         if (!Model.IsStarted)
         {
             barColor = "red";
+            status = "Not Started";
         }
         else if (Model.InProgress)
         {
             barColor = "yellow";
+            status = "In Progress";
         }
         else
         {
             barColor = "green";
+            status = "Complete";
         }
     }
 
 
-    <div class="gauntlet-display">
-
-        <div class="leftbar-@barColor">
-        </div>
-
-        <div class="title">
-            @Model.Gauntlet.Reps
-            @Model.Gauntlet.Excercise
-        </div>
-
-        <div class="details">
-            <div class="item">
-                Difficulty: @Model.Gauntlet.DifficultyRange
-            </div>
-            <div class="item">
-                Base Points: @Model.Gauntlet.BasePoints
-            </div>
-        </div>
+        @{Html.RenderPartial("_DataTilePartial", new DataVM(Model.Gauntlet.Excercise, "activity"));}
 
 
-    </div>
+
+
+    <ul data-role="listview" data-inset="true" data-theme="a">
+        <li data-role="list-divider" style="color: @barColor">Status: @status</li>
+        @{var i = 1;}
+
+
+        @if(Model.IncompleteSet != null)
+        {
+            <li data-theme="b">
+                <a href="@Url.Action("DoSet", "Gauntlet", new {id = Model.Gauntlet.Id})" data-inline="true">
+                    @{Html.RenderPartial("_DataTilePartial", new DataVM(Model.Sets.Count, "set"));}
+                    @{Html.RenderPartial("_DataTilePartial", new DataVM(String.Format("{0:h:mt}", Model.IncompleteSet.StartTime), "started"));}
+                </a>
+            </li>  
+        }
+            
+
+
+
+        @foreach (Set s in Model.Sets.OrderBy(o => o.Id).ToList<Set>())
+        {
+                
+            if(s.Completed)
+            {
+                <li data-icon="check">
+                    <a href="#">
+                    @{Html.RenderPartial("_DataTilePartial", new DataVM(i++, "set"));}
+                    @{Html.RenderPartial("_DataTilePartial", new DataVM(s.NumReps.ToString(), "reps"));}
+                    @{Html.RenderPartial("_DataTilePartial", new DataVM(s.RepsPerMinute, "reps/min"));}
+                        </a>
+                </li>   
+            }
+            else{
+                               
+            }
+
+        }
+
+    </ul>
+
 
 }
 

@@ -71,6 +71,24 @@ namespace gFit.DBLayer
         }
 
 
+        public bool DeleteSet(Set s)
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            AddSqlParameter(sqlParameters, "@set_id", s.Id);
+            AddSqlParameter(sqlParameters, "@account_id", s.AccountId);
+            AddSqlParameter(sqlParameters, "@gauntlet_id", s.GauntletId);
+
+            int result = ExecuteNonQuery("dbo.usp_deleteSet", sqlParameters);
+
+            if (result > 1)
+            {
+                throw new DataException("Altered more than one row when row identity should be unique");
+            }
+
+            return result == 1;
+        }
+
+
 
         public List<Set> GetSetsByAccountAndGauntlet(int Id, int gauntletId)
         {

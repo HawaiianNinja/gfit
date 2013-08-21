@@ -33,10 +33,16 @@ namespace gFit.Models.Base
         {
             get
             {
-                TimeSpan diff = EndTime.Subtract(StartTime);
+
+
+                if (TotalTime.TotalSeconds == 0)
+                {
+                    return 0;
+                }
+
                 if (IsValid)
                 {
-                    return NumReps / diff.Minutes;
+                    return Math.Round(NumReps * (60 / TotalTime.TotalSeconds));
                 }
                 return 0.0;
             }

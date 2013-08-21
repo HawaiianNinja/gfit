@@ -64,6 +64,11 @@ namespace gFit.Controllers
                 p.Sets.Add(s);
             }
 
+            if (!p.HasIncompleteSet)
+            {
+                throw new NullReferenceException();                    
+            }
+
             
             return View(p);
         }
@@ -79,15 +84,22 @@ namespace gFit.Controllers
         public ActionResult DoSetPostBack(int id, int numReps)
         {
 
-
             GauntletParticipation p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
             p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
 
+            //they have to do some reps
+            if(numReps == 0)
+            {
+                return RedirectToAction("Status", "Gauntlet", new { id = id});
+            }
+
+            
+
             if(!p.HasIncompleteSet)
             {
-                var b = "uh oh";
+                return RedirectToAction("DoSet", "Gauntlet", new {id = id});
             }
 
             Set s = p.IncompleteSet;
@@ -101,6 +113,22 @@ namespace gFit.Controllers
         }
 
 
+        public ActionResult DeleteSet(int setId, int gauntletId, int accountId)
+        {
+            Set s = new Set { Id = setId, GauntletId = gauntletId, AccountId = accountId };
+
+            SetDBLayer.Instance.DeleteSet(s);
+
+            return RedirectToAction("Status", "Gauntlet", new { id = gauntletId });
+        }
+
+
+
+        [HttpGet]
+        public ActionResult DoSetPostBack(int id)
+        {
+            return RedirectToAction("Status", "Gauntlet", new { id = id });
+        }
 
 
 

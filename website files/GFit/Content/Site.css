@@ -15,67 +15,83 @@
     background-color: #FFFF82;
 }
 
-.gauntlet-display {
 
+/*
+    
+    */
+
+.tile-base {
+    display: inline-block;
+    position: relative;    
+    display: inline-block;
+    position: relative;
     background-color: #343434;
-    color: white;    
+    color: white;
     border-radius: 0.2em;
-    padding: 6px;
-    height:60px;
-
+    min-height: 60px;
+    margin: 2px;
 }
 
-    .gauntlet-display .leftbar-green {
-        width: 6px;
-        height: 100%;
-        float: left;
-        margin-right: 6px;
-        background-color: #00ff21;
+
+    .tile-base .left-bar-yellow {
+        background-image: url("/Images/1pxYellow.png");
+        background-position: left;
+        background-size: 5px;
+        background-repeat: repeat-y;
+        padding-left: 12px;
+        margin:6px 3px 6px 6px;
+        
     }
 
-    .gauntlet-display .leftbar-yellow {
-        width: 6px;
-        height: 100%;
-        float: left;
-        margin-right: 6px;
-        background-color: #ffd800;
+    .tile-base .left-bar-green {
+        background-image: url("/Images/1pxGreen.png");
+        background-position: left;
+        background-size: 5px;
+        background-repeat: repeat-y;
+        padding-left: 12px;
+        margin:6px 3px 6px 6px;
+        
     }
 
-    .gauntlet-display .leftbar-red {
-        width: 6px;
-        height: 100%;
-        float: left;
-        margin-right: 6px;
-        background-color: #FF0000;
+    .tile-base .left-bar-red {
+        background-image: url("/Images/1pxRed.png");
+        background-position: left;
+        background-size: 5px;
+        background-repeat: repeat-y;
+        padding-left: 12px;
+        margin:6px 3px 6px 6px;
+        
     }
 
 
 
 
 
-
-    .gauntlet-display .title {
-        white-space: nowrap;
-        font-size: larger;
-        overflow:hidden;
-        text-overflow:ellipsis;
-
-    }
-
-    .gauntlet-display .details {
-        margin-top:6px;
-    }
-
-        .gauntlet-display .details .item {
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-
-.timer-block {
-    border: 1px solid #000000;
+.data-tile {
+    position:relative;
+    margin: 6px;
+    min-width: 50px;    
+    z-index: 100;
+    text-align: center;
 }
 
-    .timer-block .minutes {
+    .data-tile .data {
         font-size: 32px;
+        color: #ffd800;
     }
+
+    .data-tile .caption {
+        font-size: 12px;
+    }
+
+    .data-tile .seconds {
+        font-size: 12px;
+        vertical-align: top;
+        color: #CCC;
+    }
+
+
+/*
+    Timer classes    
+    */
+

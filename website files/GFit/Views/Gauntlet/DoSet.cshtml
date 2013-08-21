@@ -1,7 +1,8 @@
 ﻿@model gFit.Models.Composite.GauntletParticipation
+@using gFit.Models.ViewModels;
 
 @{
-    ViewBag.Title = "TakeGauntlet";
+    ViewBag.Title = "Gauntlet Status";
 }
 
 @section BackButton{
@@ -12,65 +13,70 @@ data-add-back-btn="true"
 {
 
 
-    <div class="timer-block">
-
-        
-        <span class="minutes" data-bind="text: minutes"></span>:<span class="seconds" data-bind="text: seconds"></span>
-
-    </div>
 
 
-    @using (Html.BeginForm("DoSetPostBack", "Gauntlet", FormMethod.Post, new { id = Model.Gauntlet.Id }))
+
+    @using (Html.BeginForm("DoSetPostBack", "Gauntlet", new { id = Model.Gauntlet.Id }, FormMethod.Post, new { id = "formId" }))
     {
             
         @Html.Hidden("id", @Model.Gauntlet.Id)
         @Html.AntiForgeryToken()
         <ul data-role="listview" data-inset="true">
             <li data-role="list-divider">Hurry! Do some @Model.Gauntlet.Excercise!</li>
-            <li data-bind="text: repsLeft">Reps Left: @Model.RepsLeft</li>
+            <li>
+
+                @{
+        string data = "<span class=\"minutes\" data-bind=\"text: minutes\"></span><span class=\"seconds\" data-bind=\"text: seconds\"></span>";
+        Html.RenderPartial("_DataTilePartial", new DataVM(data, "timer"));
+        Html.RenderPartial("_DataTilePartial", new DataVM(Model.RepsLeft, "reps left"));
+                }
+
+
+
+
+            </li>
             <li data-role="fieldcontain" data-inline="false">
                 <label for="reps" style="margin-right: 10px;">Reps This Set</label>
 
 
-                <input type="range" 
+                <input type="range"
                     data-inline="false"
                     name="numReps" 
                     id="repsSlider" 
                     min="1" 
                     max="@Model.RepsLeft" 
                     data-highlight="true"
-                    value="0"
-                    onChange="UpdateRepsLeft()" />
-
-                <input id="hiddenRepsDoneValue" type="hidden" value="0" data-bind="value: repsDone" />
-            </li>
-            <li>
-
-
-                <button type="submit" data-inline="true">Submit</button>
+                    value="1"/>
 
 
             </li>
+
 
 
         </ul>
     }
-
-
-
-
 }
+
+
+@section Footer
+{
+    <div class="center-wrapper">
+        <a data-role="button" data-inline="true" href="@Url.Action("DeleteSet", "Gauntlet", new { setId = Model.IncompleteSet.Id, gauntletId = Model.Gauntlet.Id, accountId = Model.Account.Id})">Discard</a>
+        <a data-role="button" data-inline="true" onclick="$('#formId').submit();">Save</a>
+    </div>
+    
+}
+
+
+
 
 @section Scripts
 {
+
+    @Scripts.Render("~/bundles/knockout")
     <script>
 
-        
-
-
         function AppViewModel() {
-
-            
 
             //timer bindings
             var _dummy = ko.observable();
@@ -78,60 +84,62 @@ data-add-back-btn="true"
             this.minutes = ko.observable();
             this.seconds = ko.observable();
 
+
+  
+
+            
+
             this.minutes = ko.computed(function () {
                 _dummy();
-                return Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60));
+                var hour = Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                var min = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000 * 60)) % 60);
+                var sec = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
+
+                if (hour > 0)
+                    return hour;
+                if (min > 0)
+                    return min < 10 ? "0" + min : min;
+                return sec < 10 ? "0" + sec : sec;
             }, this);
 
 
             this.seconds = ko.computed(function () {
                 _dummy();
-                return Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
+                var hour = Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                var min = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000 * 60)) % 60);
+                var sec = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
+                var decsec = Math.floor(((new Date().getTime() - startDate.getTime()) / (10)) % 100);
+
+                if (hour > 0)
+                    return min < 10 ? "0" + min : min;
+                if (min > 0)
+                    return sec < 10 ? "0" + sec : sec;
+                return decsec < 10 ? "0" + decsec : decsec;
+
             }, this);
 
 
-            
-            //repsLeft bindings
-            var _dummy2 = ko.observable();
-
-            this.repsDone = ko.observable(0);
-            this.repsLeft = ko.observable(@Model.RepsLeft);
-            
-            this.repsLeft = ko.computed(function () {
-                _dummy2();
-                return @Model.RepsLeft-$('#repsSlider').val();
-            }, this);
 
 
-            
-            
+
             this.poke = function () {
                 _dummy.notifySubscribers();
             };
-            this.poke2 = function () {
-                _dummy2.notifySubscribers();
-            };
+
 
 
         }
 
         var vm = new AppViewModel();
 
-
-
-        function UpdateRepsLeft() {
-            vm.poke2();
-        }
-              
-
         setInterval(function () {
             vm.poke();
-        }, 1000);
-     
+        }, 10);
+
         ko.applyBindings(vm);
 
 
     </script>
 
-    
+
 }
