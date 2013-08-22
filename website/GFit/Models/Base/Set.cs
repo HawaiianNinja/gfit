@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace gFit.Models.Base
 {
-  
-    
     public class Set
     {
         public Guid Guid { get; set; }
@@ -18,23 +17,17 @@ namespace gFit.Models.Base
         public bool Completed { get; set; }
 
 
-
         public TimeSpan TotalTime
         {
-            get
-            {
-                return EndTime.Subtract(StartTime);
-            }
-            set {}
+            get { return EndTime.Subtract(StartTime); }
+            set { }
         }
-        
+
 
         public double RepsPerMinute
         {
             get
             {
-
-
                 if (TotalTime.TotalSeconds == 0)
                 {
                     return 0;
@@ -42,13 +35,12 @@ namespace gFit.Models.Base
 
                 if (IsValid)
                 {
-                    return Math.Ceiling(NumReps * (60 / TotalTime.TotalSeconds));
+                    return Math.Ceiling(NumReps*(60/TotalTime.TotalSeconds));
                 }
                 return 0.0;
             }
             set { }
         }
-
 
 
         public bool IsValid
@@ -72,10 +64,5 @@ namespace gFit.Models.Base
             }
             set { }
         }
-
-
-
-
     }
-
 }

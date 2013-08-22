@@ -1,17 +1,17 @@
-﻿using gFit.Models.Base;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using gFit.Models.Base;
+
+#endregion
 
 namespace gFit.DBLayer
 {
     public class SetDBLayer : DBLayer
     {
-
-
         private static SetDBLayer instance;
 
         public static SetDBLayer Instance
@@ -28,53 +28,31 @@ namespace gFit.DBLayer
         }
 
 
-
-
         public Set GetSetByGuid(Guid setGuid)
         {
-
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            var sqlParameters = new List<SqlParameter>();
             AddSqlParameter(sqlParameters, "@set_guid", setGuid.ToString());
 
-            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getSetById", sqlParameters);
+            var dt = GetDataTableFromStoredProcedure("dbo.usp_getSetById", sqlParameters);
 
             if (dt.Rows.Count == 0)
             {
                 return null;
             }
 
-            Set gs = GetSetsFromDataTable(dt)[0];
+            var gs = GetSetsFromDataTable(dt)[0];
 
             return gs;
-
         }
 
 
         public bool StoreCompletedSet(Set s)
         {
-
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            var sqlParameters = new List<SqlParameter>();
             AddSqlParameter(sqlParameters, "@set_guid", s.Guid);
             AddSqlParameter(sqlParameters, "@num_reps", s.NumReps);
 
-            int result = ExecuteNonQuery("dbo.usp_storeCompletedSet", sqlParameters);
-
-            if(result > 1)
-            {
-                throw new DataException("Altered more than one row when row identity should be unique");
-            }
-
-            return result == 1;
-
-        }
-
-
-        public bool DeleteSet(Set s)
-        {
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@set_guid", s.Guid.ToString());
-
-            int result = ExecuteNonQuery("dbo.usp_deleteSet", sqlParameters);
+            var result = ExecuteNonQuery("dbo.usp_storeCompletedSet", sqlParameters);
 
             if (result > 1)
             {
@@ -85,15 +63,29 @@ namespace gFit.DBLayer
         }
 
 
+        public bool DeleteSet(Set s)
+        {
+            var sqlParameters = new List<SqlParameter>();
+            AddSqlParameter(sqlParameters, "@set_guid", s.Guid.ToString());
+
+            var result = ExecuteNonQuery("dbo.usp_deleteSet", sqlParameters);
+
+            if (result > 1)
+            {
+                throw new DataException("Altered more than one row when row identity should be unique");
+            }
+
+            return result == 1;
+        }
+
 
         public List<Set> GetSetsByAccountAndGauntlet(int accountId, int gauntletId)
         {
-
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            var sqlParameters = new List<SqlParameter>();
             AddSqlParameter(sqlParameters, "@account_id", accountId);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
-            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getSetsByAccountAndGauntlet", sqlParameters);
+            var dt = GetDataTableFromStoredProcedure("dbo.usp_getSetsByAccountAndGauntlet", sqlParameters);
 
             if (dt.Rows.Count == 0)
             {
@@ -101,22 +93,18 @@ namespace gFit.DBLayer
             }
 
             return GetSetsFromDataTable(dt);
-
         }
 
 
-        
         public Set GetNewSet(int accountId, int gauntletId)
         {
-
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            var sqlParameters = new List<SqlParameter>();
             AddSqlParameter(sqlParameters, "@account_id", accountId);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
-            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_newSet", sqlParameters);
+            var dt = GetDataTableFromStoredProcedure("dbo.usp_newSet", sqlParameters);
 
             return GetSetsFromDataTable(dt)[0];
-            
         }
 
 
@@ -127,30 +115,24 @@ namespace gFit.DBLayer
                 return new List<Set>();
             }
 
-            List<Set> list = new List<Set>();
+            var list = new List<Set>();
 
-            for (int i = 0; i < dt.Rows.Count; i++)
+            for (var i = 0; i < dt.Rows.Count; i++)
             {
-
-                Set gs = new Set
-                {
-                    Guid = (Guid)GetColValue(dt.Rows[i], "set_guid"),
-                    AccountId = (int)GetColValue(dt.Rows[i], "account_id"),
-                    GauntletId = (int)GetColValue(dt.Rows[i], "gauntlet_id"),
-                    NumReps = (int)GetColValue(dt.Rows[i], "num_reps"),
-                    StartTime = Convert.ToDateTime(GetColValue(dt.Rows[i], "start_time")),
-                    EndTime = Convert.ToDateTime(GetColValue(dt.Rows[i], "end_time")),
-                    Completed = Convert.ToBoolean(GetColValue(dt.Rows[i], "completed"))
-                };
+                var gs = new Set
+                             {
+                                 Guid = (Guid) GetColValue(dt.Rows[i], "set_guid"),
+                                 AccountId = (int) GetColValue(dt.Rows[i], "account_id"),
+                                 GauntletId = (int) GetColValue(dt.Rows[i], "gauntlet_id"),
+                                 NumReps = (int) GetColValue(dt.Rows[i], "num_reps"),
+                                 StartTime = Convert.ToDateTime(GetColValue(dt.Rows[i], "start_time")),
+                                 EndTime = Convert.ToDateTime(GetColValue(dt.Rows[i], "end_time")),
+                                 Completed = Convert.ToBoolean(GetColValue(dt.Rows[i], "completed"))
+                             };
 
                 list.Add(gs);
-
             }
             return list;
-
         }
-
-
-
     }
 }

@@ -1,17 +1,17 @@
-﻿using Facebook;
+﻿#region
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using gFit.Models;
 using System.Dynamic;
-using Microsoft.Web.WebPages.OAuth;
+using Facebook;
+using gFit.Models;
+
+#endregion
 
 namespace gFit.Facebook
 {
     public static class FacebookBusinessLayer
     {
-
         private const string AppID = "296587703816145";
         private const string AppSecret = "5ddf5f4419c40cb6528160ffdaa56623";
 
@@ -22,41 +22,34 @@ namespace gFit.Facebook
         private static dynamic ReturnFacebookQuery(string queryFields, string accessToken)
         {
             var client = new FacebookClient(accessToken);
-            dynamic result = client.Get("me", new { fields = queryFields });
+            dynamic result = client.Get("me", new {fields = queryFields});
             return result;
         }
 
 
         public static string GetUserFirstName(string accessToken)
         {
-
-            dynamic queryResult = ReturnFacebookQuery("first_name", accessToken);
+            var queryResult = ReturnFacebookQuery("first_name", accessToken);
             return queryResult.first_name;
-
         }
 
 
         public static string GetUserLastName(string accessToken)
         {
-
-            dynamic queryResult = ReturnFacebookQuery("last_name", accessToken);
+            var queryResult = ReturnFacebookQuery("last_name", accessToken);
             return queryResult.last_name;
-
         }
 
         public static string GetUserId(string accessToken)
         {
-
-            dynamic queryResult = ReturnFacebookQuery("id", accessToken);
+            var queryResult = ReturnFacebookQuery("id", accessToken);
             return queryResult.id;
-
         }
 
 
-        
         public static DateTime GetUserBirthday(string accessToken)
-        {            
-            dynamic queryResult = ReturnFacebookQuery("birthday", accessToken);
+        {
+            var queryResult = ReturnFacebookQuery("birthday", accessToken);
 
             DateTime birthday = Convert.ToDateTime(queryResult.birthday);
 
@@ -65,16 +58,14 @@ namespace gFit.Facebook
 
         public static string GetUsername(string accessToken)
         {
-
-            dynamic queryResult = ReturnFacebookQuery("username", accessToken);
+            var queryResult = ReturnFacebookQuery("username", accessToken);
             return queryResult.username;
         }
 
 
-
         public static string GetUserGender(string accessToken)
         {
-            dynamic queryResult = ReturnFacebookQuery("gender", accessToken);
+            var queryResult = ReturnFacebookQuery("gender", accessToken);
 
             if (queryResult.gender != "male" && queryResult.gender != "female")
             {
@@ -82,23 +73,22 @@ namespace gFit.Facebook
             }
 
             return queryResult.gender;
-
         }
 
 
         public static List<BasicFriend> GetUserFriends(string accessToken)
         {
-            dynamic queryResult = ReturnFacebookQuery("friends", accessToken);
-            
+            var queryResult = ReturnFacebookQuery("friends", accessToken);
+
             var friends = new List<BasicFriend>();
-            
-            foreach (var friend in (JsonArray)queryResult.friends["data"])
+
+            foreach (var friend in (JsonArray) queryResult.friends["data"])
                 friends.Add(new BasicFriend
-                {
-                    Id = (string)(((JsonObject)friend)["id"]),
-                    Name = (string)(((JsonObject)friend)["name"])
-                });
-            return friends;            
+                                {
+                                    Id = (string) (((JsonObject) friend)["id"]),
+                                    Name = (string) (((JsonObject) friend)["name"])
+                                });
+            return friends;
         }
 
 
@@ -108,11 +98,11 @@ namespace gFit.Facebook
             try
             {
                 var api = new FacebookClient
-                {
-                    AccessToken = shortLivedToken,
-                    AppId = AppID,
-                    AppSecret = AppSecret
-                };
+                              {
+                                  AccessToken = shortLivedToken,
+                                  AppId = AppID,
+                                  AppSecret = AppSecret
+                              };
                 dynamic parameters = new ExpandoObject();
                 parameters.grant_type = "fb_exchange_token";
                 parameters.fb_exchange_token = shortLivedToken;
@@ -132,10 +122,5 @@ namespace gFit.Facebook
             }
             return result.access_token as string;
         }
-        
-
-
-
-
     }
 }

@@ -1,11 +1,9 @@
-﻿using gFit.BusinessLayer;
-using gFit.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region
+
 using System.Web.Mvc;
+using gFit.BusinessLayer;
+
+#endregion
 
 namespace gFit.Controllers
 {
@@ -14,17 +12,14 @@ namespace gFit.Controllers
         [Authorize]
         public ActionResult Index()
         {
-
-            Account currentAccount = AccountBusinessLayer.GetCurrentAccount();
+            var currentAccount = AccountBusinessLayer.GetCurrentAccount();
 
             if (currentAccount == null)
             {
-                    return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
 
             return View(currentAccount);
-
         }
-
     }
 }

@@ -1,66 +1,50 @@
-﻿using gFit.Models.Base;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using gFit.Models.Base;
+
+#endregion
 
 namespace gFit.Models.Composite
 {
     public class GauntletParticipation
     {
-
         public Gauntlet Gauntlet { get; set; }
         public Account Account { get; set; }
         public List<Set> Sets { get; set; }
 
 
-
         public bool IsStarted
         {
-            get
-            {
-                return Sets.Count != 0;
-            }
+            get { return Sets.Count != 0; }
             set { }
         }
 
         public bool InProgress
         {
-            get
-            {
-                return IsStarted && !IsComplete;
-            }
+            get { return IsStarted && !IsComplete; }
             set { }
         }
 
         public bool IsComplete
         {
-            get
-            {
-                return TotalRepsCompleted == Gauntlet.Reps;
-            }
+            get { return TotalRepsCompleted == Gauntlet.Reps; }
             set { }
-               
         }
-
 
 
         public List<Set> SetsDesc
         {
-            get
-            {
-                return Sets.OrderByDescending(o => o.StartTime).ToList<Set>();
-            }
+            get { return Sets.OrderByDescending(o => o.StartTime).ToList(); }
 
             set { }
         }
 
         public List<Set> SetsAsc
         {
-            get
-            {
-                return Sets.OrderBy(o => o.StartTime).ToList<Set>();
-            }
+            get { return Sets.OrderBy(o => o.StartTime).ToList(); }
             set { }
         }
 
@@ -69,11 +53,10 @@ namespace gFit.Models.Composite
         {
             get
             {
-                foreach (Set set in Sets)
+                foreach (var set in Sets)
                 {
                     if (!set.Completed)
                     {
-
                         return set;
                     }
                 }
@@ -85,13 +68,9 @@ namespace gFit.Models.Composite
         }
 
 
-
         public int RepsLeft
         {
-            get
-            {
-                return Gauntlet.Reps - TotalRepsCompleted;
-            }
+            get { return Gauntlet.Reps - TotalRepsCompleted; }
             set { }
         }
 
@@ -100,8 +79,8 @@ namespace gFit.Models.Composite
         {
             get
             {
-                int sum = 0;
-                foreach(Set set in Sets)
+                var sum = 0;
+                foreach (var set in Sets)
                 {
                     sum += set.NumReps;
                 }
@@ -115,8 +94,8 @@ namespace gFit.Models.Composite
         {
             get
             {
-                int sum = 0;
-                foreach (Set s in Sets)
+                var sum = 0;
+                foreach (var s in Sets)
                 {
                     if (s.Completed)
                         sum++;
@@ -127,13 +106,11 @@ namespace gFit.Models.Composite
         }
 
 
-
-
         public bool HasIncompleteSet
         {
             get
             {
-                foreach (Set set in Sets)
+                foreach (var set in Sets)
                 {
                     if (!set.Completed)
                     {
@@ -144,9 +121,6 @@ namespace gFit.Models.Composite
             }
             set { }
         }
-        
-
-      
 
 
         public bool IsValid
@@ -161,8 +135,8 @@ namespace gFit.Models.Composite
 
                 //check that there isn't more than onne
                 //incomplete set
-                int numIncompleteSets = 0;
-                foreach (Set s in Sets)
+                var numIncompleteSets = 0;
+                foreach (var s in Sets)
                 {
                     if (!s.Completed)
                         numIncompleteSets++;
@@ -178,7 +152,7 @@ namespace gFit.Models.Composite
                     return false;
 
                 //check that each set is valid
-                foreach (Set s in Sets)
+                foreach (var s in Sets)
                 {
                     if (!s.IsValid)
                         return false;
@@ -186,7 +160,6 @@ namespace gFit.Models.Composite
 
 
                 return true;
-
             }
             set { }
         }
@@ -205,7 +178,7 @@ namespace gFit.Models.Composite
                 if (Sets.Count == 0)
                     return 0;
 
-                return Math.Round((TotalRepsCompleted / Sets.Count) / 10.0) * 10;
+                return Math.Round((TotalRepsCompleted/Sets.Count)/10.0)*10;
             }
             set { }
         }
@@ -214,9 +187,9 @@ namespace gFit.Models.Composite
         {
             get
             {
-                TimeSpan totalTime = new TimeSpan();
+                var totalTime = new TimeSpan();
 
-                foreach (Set s in Sets)
+                foreach (var s in Sets)
                 {
                     if (s.Completed)
                     {
@@ -239,11 +212,5 @@ namespace gFit.Models.Composite
             }
             set { }
         }
-
-        
-
-        
-
-
     }
 }

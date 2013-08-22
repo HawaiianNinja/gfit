@@ -3,90 +3,89 @@
 
 
 
-<head>
-    <meta charset="utf-8" />
+    <head>
+        <meta charset="utf-8" />
 
-    <title>@ViewBag.Title - GFit</title>
+        <title>@ViewBag.Title - GFit</title>
 
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!--disable page caching -->
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="-1">
-
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--disable page caching -->
+        <meta http-equiv="Pragma" content="no-cache">
+        <meta http-equiv="Expires" content="-1">
 
 
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/themes/custom/css")
-    @Scripts.Render("~/bundles/modernizr")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jquerymobile")
+
+
+        @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/custom/css")
+        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jquerymobile")
     
 
-</head>
+    </head>
 
 
 
-<body>
+    <body>
 
 
 
-    <div 
-        data-role="page" 
-        data-theme="a"
-        @RenderSection("BackButton", false)>
+        <div 
+            data-role="page" 
+            data-theme="a"
+            @RenderSection("BackButton", false)>
 
 
-        <div data-role="header">
+            <div data-role="header">
 
-            @if (IsSectionDefined("Header"))
-            {
-                @RenderSection("Header")
-            }
-            else
-            {
-                <div class="ui-title">
-                    <a href="@Url.Action("Index", "Home")" rel="external"><img src="~/Images/logo.png" /></a>
-                </div>   
-                
-            }
+                @if (IsSectionDefined("Header"))
+                {
+                    @RenderSection("Header")
+                }
+                else
+                {
+                    <div class="ui-title">
+                        <a href="@Url.Action("Index", "Home")" rel="external"><img src="~/Images/logo.png" /></a>
+                    </div>
+                }
+
+            </div>
+
+
+            <div data-role="content">
+
+                @RenderSection("Content")
+
+            </div>
+
+
+            <div data-role="footer" data-position="fixed">
+
+                @if (IsSectionDefined("Footer"))
+                {
+                    @RenderSection("Footer")
+                }
+                else
+                {
+                    <h1></h1>
+                }
+
+            </div>
+
+            @Scripts.Render("~/bundles/knockout")
+
+            @RenderSection("Scripts", false)
+
 
         </div>
-
-
-        <div data-role="content">
-
-            @RenderSection("Content")
-
-        </div>
-
-
-        <div data-role="footer" data-position="fixed">
-
-            @if (IsSectionDefined("Footer"))
-            {
-                @RenderSection("Footer")
-            }
-            else
-            {
-                <h1></h1>   
-            }
-
-        </div>
-
-         @Scripts.Render("~/bundles/knockout")
-
-        @RenderSection("Scripts", false)
-
-
-    </div>
 
 
    
 
-</body>
+    </body>
 
 
 

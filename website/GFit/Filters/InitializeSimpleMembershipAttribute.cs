@@ -1,10 +1,10 @@
-﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿#region
+
+using System;
 using System.Threading;
 using System.Web.Mvc;
-using WebMatrix.WebData;
-using gFit.Models;
+
+#endregion
 
 namespace gFit.Filters
 {
@@ -25,7 +25,7 @@ namespace gFit.Filters
         {
             public SimpleMembershipInitializer()
             {
-               // Database.SetInitializer<UsersContext>(null);
+                // Database.SetInitializer<UsersContext>(null);
 
                 try
                 {
@@ -42,7 +42,9 @@ namespace gFit.Filters
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
+                    throw new InvalidOperationException(
+                        "The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588",
+                        ex);
                 }
             }
         }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region
+
 using Microsoft.Web.WebPages.OAuth;
-using gFit.Models;
 using gFit.Facebook;
+
+#endregion
 
 namespace gFit
 {
@@ -28,7 +27,7 @@ namespace gFit
             //    appSecret: "5ddf5f4419c40cb6528160ffdaa56623");
 
             OAuthWebSecurity.RegisterClient(new FacebookScopedClient(), "Facebook", null);
-            
+
             //OAuthWebSecurity.RegisterGoogleClient();
         }
     }

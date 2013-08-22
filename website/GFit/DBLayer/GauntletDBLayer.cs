@@ -1,18 +1,23 @@
-﻿using gFit.Models;
-using gFit.Models.Base;
+﻿#region
+
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+using gFit.Models.Base;
+
+#endregion
 
 namespace gFit.DBLayer
 {
     public class GauntletDBLayer : DBLayer
     {
-
         private static GauntletDBLayer instance;
+
+
+        private GauntletDBLayer()
+        {
+        }
 
         public static GauntletDBLayer Instance
         {
@@ -28,20 +33,9 @@ namespace gFit.DBLayer
         }
 
 
-
-
-        private GauntletDBLayer()
-            : base()
-        {
-        }
-
-
-
-
         public List<Gauntlet> GetTodaysGauntlets()
         {
-
-            DataTable dt = GetDataTableFromStoredProcedure("usp_getGauntletByDate", new List<SqlParameter>());
+            var dt = GetDataTableFromStoredProcedure("usp_getGauntletByDate", new List<SqlParameter>());
 
             if (dt.Rows.Count == 0)
             {
@@ -49,81 +43,55 @@ namespace gFit.DBLayer
             }
 
             return GetGauntletsFromDataTable(dt);
-
         }
-
-
 
 
         public Gauntlet GetGauntlet(int gauntlet_id)
         {
-
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            var sqlParameters = new List<SqlParameter>();
 
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntlet_id);
 
-            DataTable dt = GetDataTableFromStoredProcedure("usp_getGauntletById", sqlParameters);
+            var dt = GetDataTableFromStoredProcedure("usp_getGauntletById", sqlParameters);
 
             if (dt.Rows.Count == 0)
             {
                 return null;
             }
 
-            Gauntlet g = GetGauntletsFromDataTable(dt)[0];
+            var g = GetGauntletsFromDataTable(dt)[0];
 
             return g;
-
         }
-
-
-  
-
-
 
 
         public List<Gauntlet> GetGauntletsFromDataTable(DataTable dt)
         {
-
             if (dt.Rows.Count == 0)
             {
                 return new List<Gauntlet>();
             }
 
 
-            List<Gauntlet> list = new List<Gauntlet>();
+            var list = new List<Gauntlet>();
 
-            for (int i = 0; i < dt.Rows.Count; i++)
+            for (var i = 0; i < dt.Rows.Count; i++)
             {
-
-                Gauntlet g = new Gauntlet
-                {
-                    Id = (int)GetColValue(dt.Rows[i], "id"),
-                    Excercise = (string)GetColValue(dt.Rows[i], "excercise"),
-                    Reps = (int)GetColValue(dt.Rows[i], "reps"),
-                    Difficulty = (int)GetColValue(dt.Rows[i], "difficulty"),
-                    DateCreated = Convert.ToDateTime(GetColValue(dt.Rows[i], "date_created")),
-                    DateAssigned = Convert.ToDateTime(GetColValue(dt.Rows[i], "date_assigned"))
-
-                };
+                var g = new Gauntlet
+                            {
+                                Id = (int) GetColValue(dt.Rows[i], "id"),
+                                Excercise = (string) GetColValue(dt.Rows[i], "excercise"),
+                                Reps = (int) GetColValue(dt.Rows[i], "reps"),
+                                Difficulty = (int) GetColValue(dt.Rows[i], "difficulty"),
+                                DateCreated = Convert.ToDateTime(GetColValue(dt.Rows[i], "date_created")),
+                                DateAssigned = Convert.ToDateTime(GetColValue(dt.Rows[i], "date_assigned"))
+                            };
 
 
                 list.Add(g);
-
             }
 
             return list;
-
         }
-
-        
-
-
     }
-
-
-
-
-
-
-
 }

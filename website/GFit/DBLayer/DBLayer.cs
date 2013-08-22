@@ -1,29 +1,26 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
+
+#endregion
 
 namespace gFit.DBLayer
 {
     public abstract class DBLayer
     {
+        public static String ConnectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
 
-        public static String ConnectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;        
-
-        public DBLayer()
+        private SqlCommand GetSqlCommandForStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters,
+                                                           SqlConnection connection)
         {
-        }
-
-        private SqlCommand GetSqlCommandForStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters, SqlConnection connection)
-        {
-
             var cmd = new SqlCommand(storedProcedureName, connection);
             cmd.CommandType = CommandType.StoredProcedure;
 
-            foreach (SqlParameter p in sqlParameters)
+            foreach (var p in sqlParameters)
             {
                 cmd.Parameters.Add(p);
             }
@@ -34,15 +31,14 @@ namespace gFit.DBLayer
         public DataTable GetDataTableFromStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters)
         {
             SqlConnection connection;
-            DataTable dt = new DataTable();
+            var dt = new DataTable();
             using (connection = new SqlConnection(ConnectionString))
             {
-                
-                SqlCommand cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters, connection);
+                var cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters, connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 connection.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
+                var reader = cmd.ExecuteReader();
                 dt.Load(reader);
                 connection.Close();
             }
@@ -52,11 +48,10 @@ namespace gFit.DBLayer
         public int ExecuteNonQuery(String storedProcedureName, List<SqlParameter> sqlParameters)
         {
             SqlConnection connection;
-            int result = 0;
+            var result = 0;
             using (connection = new SqlConnection(ConnectionString))
-            {                
-
-                SqlCommand cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters, connection);
+            {
+                var cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters, connection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 connection.Open();

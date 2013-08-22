@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace gFit.Models.Base
 {
     public class Gauntlet
     {
-
         public int Id { get; set; }
         public string Excercise { get; set; }
         public int Reps { get; set; }
@@ -16,17 +16,11 @@ namespace gFit.Models.Base
         public DateTime DateAssigned { get; set; }
 
 
-
-
         public int BasePoints
         {
-            get
-            {
-                return (int)Math.Round((Reps * Difficulty) / 100.0) * 100;
-            }
+            get { return (int) Math.Round((Reps*Difficulty)/100.0)*100; }
             set { }
         }
-
 
 
         public string DifficultyRange
@@ -45,16 +39,9 @@ namespace gFit.Models.Base
                 {
                     return "Hard";
                 }
-
             }
 
             set { }
         }
-        
-
-
-        public Gauntlet() { }
-
-
     }
 }

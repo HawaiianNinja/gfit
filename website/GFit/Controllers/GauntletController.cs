@@ -1,30 +1,28 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using gFit.DBLayer;
 using gFit.BusinessLayer;
+using gFit.DBLayer;
 using gFit.Models.Base;
-using gFit.Models;
 using gFit.Models.Composite;
+
+#endregion
 
 namespace gFit.Controllers
 {
     [Authorize]
     public class GauntletController : Controller
     {
-        
-        
         public ActionResult Index()
         {
+            var lp = new List<GauntletParticipation>();
+            var lg = GauntletDBLayer.Instance.GetTodaysGauntlets();
 
-            List<GauntletParticipation> lp = new List<GauntletParticipation>();
-            List<Gauntlet> lg = GauntletDBLayer.Instance.GetTodaysGauntlets();
-
-            foreach (Gauntlet g in lg)
+            foreach (var g in lg)
             {
-                GauntletParticipation p = new GauntletParticipation();
+                var p = new GauntletParticipation();
                 p.Account = AccountBusinessLayer.GetCurrentAccount();
                 p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(g.Id);
                 p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
@@ -32,33 +30,25 @@ namespace gFit.Controllers
             }
 
 
-
-            
-
             return View(lp);
-
         }
-        
 
 
         public ActionResult Status(int id)
         {
-            GauntletParticipation p = new GauntletParticipation();
+            var p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
             p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
 
-                       
 
             return View(p);
-
         }
 
 
         public ActionResult DoSet(int id)
         {
-            
-            GauntletParticipation p = new GauntletParticipation();
+            var p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
             p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
@@ -66,22 +56,22 @@ namespace gFit.Controllers
 
             if (p.IsComplete)
             {
-                return RedirectToAction("Status", "Gauntlet", new { id = id });
+                return RedirectToAction("Status", "Gauntlet", new {id});
             }
 
 
             if (!p.IsComplete && !p.HasIncompleteSet)
             {
-                Set s = SetDBLayer.Instance.GetNewSet(p.Account.Id, p.Gauntlet.Id);
+                var s = SetDBLayer.Instance.GetNewSet(p.Account.Id, p.Gauntlet.Id);
                 p.Sets.Add(s);
             }
 
             if (!p.HasIncompleteSet)
             {
-                throw new NullReferenceException();                    
+                throw new NullReferenceException();
             }
 
-            
+
             return View(p);
         }
 
@@ -95,52 +85,47 @@ namespace gFit.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DoSetPostBack(int id, int numReps)
         {
-
-            GauntletParticipation p = new GauntletParticipation();
+            var p = new GauntletParticipation();
             p.Account = AccountBusinessLayer.GetCurrentAccount();
             p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
             p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
 
             //they have to do some reps
-            if(numReps == 0)
+            if (numReps == 0)
             {
-                return RedirectToAction("Status", "Gauntlet", new { id = id });
+                return RedirectToAction("Status", "Gauntlet", new {id});
             }
 
-            
 
-            if(!p.HasIncompleteSet)
+            if (!p.HasIncompleteSet)
             {
-                return RedirectToAction("DoSet", "Gauntlet", new { id = id });
+                return RedirectToAction("DoSet", "Gauntlet", new {id});
             }
 
-            Set s = p.IncompleteSet;
-            s.NumReps = Math.Min(numReps,p.RepsLeft);
+            var s = p.IncompleteSet;
+            s.NumReps = Math.Min(numReps, p.RepsLeft);
             s.EndTime = DateTime.UtcNow;
             s.Completed = true;
 
             SetDBLayer.Instance.StoreCompletedSet(s);
 
-            return RedirectToAction("Status", "Gauntlet", new { id = id });
+            return RedirectToAction("Status", "Gauntlet", new {id});
         }
 
-        public ActionResult DeleteSet(int id ,Guid setGuid)
+        public ActionResult DeleteSet(int id, Guid setGuid)
         {
-            Set s = new Set { Guid = setGuid };
+            var s = new Set {Guid = setGuid};
 
             SetDBLayer.Instance.DeleteSet(s);
 
-            return RedirectToAction("Status", "Gauntlet", new { id = id });
+            return RedirectToAction("Status", "Gauntlet", new {id});
         }
-
 
 
         [HttpGet]
         public ActionResult DoSetPostBack(int id)
         {
-            return RedirectToAction("Status", "Gauntlet", new { id = id });
+            return RedirectToAction("Status", "Gauntlet", new {id});
         }
-
-
     }
 }
