@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -20,10 +22,17 @@ public class MainActivity extends Activity {
 		if (savedInstanceState != null) {
 			view.restoreState(savedInstanceState);
 		} else {
-			view.setWebViewClient(new WebViewClient());
-			view.clearCache(true);
+			//view.clearCache(true);
 			view.loadUrl("http://gfit.azurewebsites.net/");
 		}
+		view.setWebViewClient(new WebViewClient());
+		view.setWebChromeClient(new WebChromeClient());
+		view.getSettings().setRenderPriority(RenderPriority.HIGH);
+		view.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+		view.getSettings().setDomStorageEnabled(true);
+		view.getSettings().setAppCacheEnabled(true);
+		view.getSettings().setDatabaseEnabled(true);
+		view.getSettings().setDomStorageEnabled(true);
 		WebSettings webSettings = view.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 	}
