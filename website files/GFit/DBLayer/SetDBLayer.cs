@@ -30,11 +30,11 @@ namespace gFit.DBLayer
 
 
 
-        public Set GetSetById(int setId)
+        public Set GetSetByGuid(Guid setGuid)
         {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@set_id", setId);
+            AddSqlParameter(sqlParameters, "@set_guid", setGuid.ToString());
 
             DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getSetById", sqlParameters);
 
@@ -54,9 +54,7 @@ namespace gFit.DBLayer
         {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@set_id", s.Id);
-            AddSqlParameter(sqlParameters, "@account_id", s.AccountId);
-            AddSqlParameter(sqlParameters, "@gauntlet_id", s.GauntletId);
+            AddSqlParameter(sqlParameters, "@set_guid", s.Guid);
             AddSqlParameter(sqlParameters, "@num_reps", s.NumReps);
 
             int result = ExecuteNonQuery("dbo.usp_storeCompletedSet", sqlParameters);
@@ -74,9 +72,7 @@ namespace gFit.DBLayer
         public bool DeleteSet(Set s)
         {
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@set_id", s.Id);
-            AddSqlParameter(sqlParameters, "@account_id", s.AccountId);
-            AddSqlParameter(sqlParameters, "@gauntlet_id", s.GauntletId);
+            AddSqlParameter(sqlParameters, "@set_guid", s.Guid.ToString());
 
             int result = ExecuteNonQuery("dbo.usp_deleteSet", sqlParameters);
 
@@ -90,14 +86,14 @@ namespace gFit.DBLayer
 
 
 
-        public List<Set> GetSetsByAccountAndGauntlet(int Id, int gauntletId)
+        public List<Set> GetSetsByAccountAndGauntlet(int accountId, int gauntletId)
         {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@account_id", Id);
+            AddSqlParameter(sqlParameters, "@account_id", accountId);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
-            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getGauntletSetsByAccount", sqlParameters);
+            DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_getSetsByAccountAndGauntlet", sqlParameters);
 
             if (dt.Rows.Count == 0)
             {
@@ -110,11 +106,11 @@ namespace gFit.DBLayer
 
 
         
-        public Set GetNewSet(int Id, int gauntletId)
+        public Set GetNewSet(int accountId, int gauntletId)
         {
 
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            AddSqlParameter(sqlParameters, "@account_id", Id);
+            AddSqlParameter(sqlParameters, "@account_id", accountId);
             AddSqlParameter(sqlParameters, "@gauntlet_id", gauntletId);
 
             DataTable dt = GetDataTableFromStoredProcedure("dbo.usp_newSet", sqlParameters);
@@ -138,7 +134,7 @@ namespace gFit.DBLayer
 
                 Set gs = new Set
                 {
-                    Id = (int)GetColValue(dt.Rows[i], "set_id"),
+                    Guid = (Guid)GetColValue(dt.Rows[i], "set_guid"),
                     AccountId = (int)GetColValue(dt.Rows[i], "account_id"),
                     GauntletId = (int)GetColValue(dt.Rows[i], "gauntlet_id"),
                     NumReps = (int)GetColValue(dt.Rows[i], "num_reps"),

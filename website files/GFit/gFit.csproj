@@ -200,9 +200,16 @@
     <Content Include="Content\themes\custom\jquerymobile_customtheme1.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\gfit - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\gfit - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\gfit - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\gfit - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\gfit - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\gfit - Web Deploy.pubxml" />
     <None Include="Scripts\Libraries\jquery-2.0.3.intellisense.js" />
+    <Content Include="Images\1pxGreen.png" />
+    <Content Include="Images\1pxRed.png" />
+    <Content Include="Images\1pxYellow.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Scripts\Gauntlet\DoSet.js" />
     <Content Include="Scripts\Libraries\knockout-2.3.0.debug.js" />

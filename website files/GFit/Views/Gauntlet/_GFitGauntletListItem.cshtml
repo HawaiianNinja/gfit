@@ -1,8 +1,37 @@
-﻿@model gFit.Models.Base.Gauntlet
+﻿@model gFit.Models.Composite.GauntletParticipation
 
 
 
+@{
+    string icon;
+    string barColor;
+    string status;
+    if (!Model.IsStarted)
+    {
+        icon = "arrow-r";
+        barColor = "red";
+        status = "Not Started";
+    }
+    else if (Model.InProgress)
+    {
+        icon = "arrow-r";
+        barColor = "yellow";
+        status = "In Progress";
+    }
+    else
+    {
+        icon = "check";
+        barColor = "green";
+        status = "Complete";
+    }
+}
 
-<li><a href="@Url.Action("Status", "Gauntlet", new { id = Model.Id })">@Model.Reps @Model.Excercise</a></li>
+
+
+<li data-icon="@icon">
+    <a href="@Url.Action("Status", "Gauntlet", new { id = Model.Gauntlet.Id})">
+        @Model.Gauntlet.Reps @Model.Gauntlet.Excercise
+    </a>
+</li>
 
 

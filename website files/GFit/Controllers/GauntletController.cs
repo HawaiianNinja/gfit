@@ -19,14 +19,26 @@ namespace gFit.Controllers
         public ActionResult Index()
         {
 
+            List<GauntletParticipation> lp = new List<GauntletParticipation>();
             List<Gauntlet> lg = GauntletDBLayer.Instance.GetTodaysGauntlets();
 
-            return View(lg);
+            foreach (Gauntlet g in lg)
+            {
+                GauntletParticipation p = new GauntletParticipation();
+                p.Account = AccountBusinessLayer.GetCurrentAccount();
+                p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(g.Id);
+                p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
+                lp.Add(p);
+            }
+
+
+
+            
+
+            return View(lp);
 
         }
-
-
-
+        
 
 
         public ActionResult Status(int id)
@@ -92,14 +104,14 @@ namespace gFit.Controllers
             //they have to do some reps
             if(numReps == 0)
             {
-                return RedirectToAction("Status", "Gauntlet", new { id = id});
+                return RedirectToAction("Status", "Gauntlet", new { id = id });
             }
 
             
 
             if(!p.HasIncompleteSet)
             {
-                return RedirectToAction("DoSet", "Gauntlet", new {id = id});
+                return RedirectToAction("DoSet", "Gauntlet", new { id = id });
             }
 
             Set s = p.IncompleteSet;
@@ -112,14 +124,13 @@ namespace gFit.Controllers
             return RedirectToAction("Status", "Gauntlet", new { id = id });
         }
 
-
-        public ActionResult DeleteSet(int setId, int gauntletId, int accountId)
+        public ActionResult DeleteSet(int id ,Guid setGuid)
         {
-            Set s = new Set { Id = setId, GauntletId = gauntletId, AccountId = accountId };
+            Set s = new Set { Guid = setGuid };
 
             SetDBLayer.Instance.DeleteSet(s);
 
-            return RedirectToAction("Status", "Gauntlet", new { id = gauntletId });
+            return RedirectToAction("Status", "Gauntlet", new { id = id });
         }
 
 
@@ -129,11 +140,6 @@ namespace gFit.Controllers
         {
             return RedirectToAction("Status", "Gauntlet", new { id = id });
         }
-
-
-
-
-
 
 
     }

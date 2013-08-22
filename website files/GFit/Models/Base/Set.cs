@@ -9,7 +9,7 @@ namespace gFit.Models.Base
     
     public class Set
     {
-        public int Id { get; set; }
+        public Guid Guid { get; set; }
         public int AccountId { get; set; }
         public int GauntletId { get; set; }
         public int NumReps { get; set; }
@@ -42,7 +42,7 @@ namespace gFit.Models.Base
 
                 if (IsValid)
                 {
-                    return Math.Round(NumReps * (60 / TotalTime.TotalSeconds));
+                    return Math.Ceiling(NumReps * (60 / TotalTime.TotalSeconds));
                 }
                 return 0.0;
             }

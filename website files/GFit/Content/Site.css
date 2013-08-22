@@ -23,9 +23,7 @@
 .tile-base {
     display: inline-block;
     position: relative;    
-    display: inline-block;
-    position: relative;
-    background-color: #343434;
+    background-color: #272727;
     color: white;
     border-radius: 0.2em;
     min-height: 60px;
@@ -33,65 +31,94 @@
 }
 
 
-    .tile-base .left-bar-yellow {
-        background-image: url("/Images/1pxYellow.png");
-        background-position: left;
-        background-size: 5px;
-        background-repeat: repeat-y;
-        padding-left: 12px;
-        margin:6px 3px 6px 6px;
-        
+    .tile-base .data-tile {
+        position: relative;
+        margin: 6px;
+        min-width: 50px;
+        z-index: 100;
+        text-align: center;
     }
 
-    .tile-base .left-bar-green {
-        background-image: url("/Images/1pxGreen.png");
-        background-position: left;
-        background-size: 5px;
-        background-repeat: repeat-y;
-        padding-left: 12px;
-        margin:6px 3px 6px 6px;
-        
-    }
+        .tile-base .data-tile .data {
+            font-size: 32px;
+            color: #ffd800;
+        }
 
-    .tile-base .left-bar-red {
-        background-image: url("/Images/1pxRed.png");
-        background-position: left;
-        background-size: 5px;
-        background-repeat: repeat-y;
-        padding-left: 12px;
-        margin:6px 3px 6px 6px;
-        
-    }
+        .tile-base .data-tile .caption {
+            font-size: 12px;
+        }
+
+        .tile-base .data-tile .seconds {
+            font-size: 12px;
+            vertical-align: top;
+            color: #CCC;
+        }
 
 
-
-
-
-.data-tile {
-    position:relative;
-    margin: 6px;
-    min-width: 50px;    
-    z-index: 100;
-    text-align: center;
-}
-
-    .data-tile .data {
-        font-size: 32px;
-        color: #ffd800;
-    }
-
-    .data-tile .caption {
-        font-size: 12px;
-    }
-
-    .data-tile .seconds {
-        font-size: 12px;
-        vertical-align: top;
-        color: #CCC;
-    }
-
-
-/*
-    Timer classes    
+/*  *
+    The Content Tile Classes
+    *
     */
 
+.content-tile-base {
+    display: block;    
+    background-color: #343434;
+    color: white;
+    border-radius: 0.2em;
+    margin: 2px;
+    margin-top:12px;
+    padding:3px;
+    font-size:12px;
+}
+
+    .content-tile-base .content-tile-title {
+        font-size:14px;
+        font-weight: bold;
+        color:#DDD;
+    }
+
+    .content-tile-base .left-bar-yellow {
+        display:inline-block;
+        background-image: url("/Images/1pxYellow.png");
+        background-position: left;
+        background-size: 3px;
+        background-repeat: repeat-y;
+        padding-left: 12px;
+        margin:6px 3px 6px 6px;
+       
+    }
+
+    .content-tile-base .left-bar-green {
+        background-image: url("/Images/1pxYGreen.png");
+        background-position: left;
+        background-size: 3px;
+        background-repeat: repeat-y;
+        padding-left: 12px;
+        margin:6px 3px 6px 6px;
+        
+    }
+
+    .content-tile-base .left-bar-red {
+        background-image: url("/Images/1pxRed.png");
+        background-position: left;
+        background-size: 3px;
+        background-repeat: repeat-y;
+        padding-left: 12px;
+        margin:6px 3px 6px 6px;        
+    }
+
+    .content-tile-base .line-item {
+        
+    }
+
+    .content-tile-base .line-item .item-title{
+        display: inline-block;
+        color: #ffd800;
+        font-weight: bold;
+        padding-right:10px;
+        min-width: 100px;
+        
+    }
+    .content-tile-base .line-item .item-value{
+        white-space:pre;
+    }

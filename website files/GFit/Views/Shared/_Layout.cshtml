@@ -6,11 +6,17 @@
 <head>
     <meta charset="utf-8" />
 
-    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <title>@ViewBag.Title - GFit</title>
 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--disable page caching -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+
+
 
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/themes/custom/css")
@@ -42,7 +48,7 @@
             else
             {
                 <div class="ui-title">
-                    <a href="@Url.Action("Index", "Home")"><img src="~/Images/logo.png" /></a>
+                    <a href="@Url.Action("Index", "Home")" rel="external"><img src="~/Images/logo.png" /></a>
                 </div>   
                 
             }

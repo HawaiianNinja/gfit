@@ -4,10 +4,7 @@
 @section Content{
 
     <ul data-role="listview" data-inset="true">
-        <li data-role="list-divider">Welcome 
-                @(Model.Gender.ToLower() == "female" ? "Ms. " : "Mr. ")
-            @Model.LastName
-            (@Model.Username)                
+        <li data-role="list-divider">hi @Model.FirstName.ToLower()        
         </li>
 
         <li><a href="@Url.Action("Index", "Gauntlet")">Pick Up a Gauntlet</a></li>

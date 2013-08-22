@@ -14,6 +14,44 @@ data-add-back-btn="true"
 
 
 
+    <div class="content-tile-base">
+
+
+
+
+        <div style="display: inline-block; vertical-align: top">
+            @{
+                string data = "<span class=\"minutes\" data-bind=\"text: minutes\"></span><span class=\"seconds\" data-bind=\"text: seconds\"></span>";
+                Html.RenderPartial("_DataTilePartial", new DataVM(data, "Timer"));
+            }
+        </div>
+
+
+        <div class="left-bar-yellow">
+
+
+
+
+            <div class="line-item">
+                <span class="item-title">Activity:</span><span class="item-value">@Model.Gauntlet.Excercise</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Total Reps:</span><span class="item-value">@Model.Gauntlet.Reps</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Reps Done:</span><span class="item-value">@Model.TotalRepsCompleted</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Reps Left:</span><span class="item-value">@Model.RepsLeft</span>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
 
 
     @using (Html.BeginForm("DoSetPostBack", "Gauntlet", new { id = Model.Gauntlet.Id }, FormMethod.Post, new { id = "formId" }))
@@ -21,25 +59,12 @@ data-add-back-btn="true"
             
         @Html.Hidden("id", @Model.Gauntlet.Id)
         @Html.AntiForgeryToken()
-        <ul data-role="listview" data-inset="true">
-            <li data-role="list-divider">Hurry! Do some @Model.Gauntlet.Excercise!</li>
-            <li>
 
-                @{
-        string data = "<span class=\"minutes\" data-bind=\"text: minutes\"></span><span class=\"seconds\" data-bind=\"text: seconds\"></span>";
-        Html.RenderPartial("_DataTilePartial", new DataVM(data, "timer"));
-        Html.RenderPartial("_DataTilePartial", new DataVM(Model.RepsLeft, "reps left"));
-                }
+        <div class="content-tile-base">
 
+            <div class="content-tile-title">Reps:</div>
 
-
-
-            </li>
-            <li data-role="fieldcontain" data-inline="false">
-                <label for="reps" style="margin-right: 10px;">Reps This Set</label>
-
-
-                <input type="range"
+            <input type="range"
                     data-inline="false"
                     name="numReps" 
                     id="repsSlider" 
@@ -48,23 +73,24 @@ data-add-back-btn="true"
                     data-highlight="true"
                     value="1"/>
 
+        </div>
+        
+        <span style="font-size: 12px">Go do some reps, when you are done adjust the slider above then click "Save" at the bottom.
+        </span>    
 
-            </li>
-
-
-
-        </ul>
     }
 }
+
+
 
 
 @section Footer
 {
     <div class="center-wrapper">
-        <a data-role="button" data-inline="true" href="@Url.Action("DeleteSet", "Gauntlet", new { setId = Model.IncompleteSet.Id, gauntletId = Model.Gauntlet.Id, accountId = Model.Account.Id})">Discard</a>
+        <a data-role="button" data-inline="true" href="@Url.Action("DeleteSet", "Gauntlet", new { id = Model.Gauntlet.Id, setGuid = Model.IncompleteSet.Guid })">Discard</a>
         <a data-role="button" data-inline="true" onclick="$('#formId').submit();">Save</a>
     </div>
-    
+
 }
 
 
@@ -76,58 +102,107 @@ data-add-back-btn="true"
     @Scripts.Render("~/bundles/knockout")
     <script>
 
+
+        function getSmallerDate(){
+            var now = new Date();
+            var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+            var startDate = new Date("@Model.IncompleteSet.StartTime");
+
+            if (now_utc.getTime() < startDate.getTime()) {
+                return now_utc;
+            }
+            return startDate;
+        }
+
+
         function AppViewModel() {
 
             //timer bindings
             var _dummy = ko.observable();
-            var startDate = new Date("@Model.IncompleteSet.StartTime");
+            var startDate = new Date(getSmallerDate());
             this.minutes = ko.observable();
             this.seconds = ko.observable();
 
 
-  
-
-            
-
             this.minutes = ko.computed(function () {
                 _dummy();
-                var hour = Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60));
-                var min = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000 * 60)) % 60);
-                var sec = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
 
-                if (hour > 0)
-                    return hour;
-                if (min > 0)
-                    return min < 10 ? "0" + min : min;
-                return sec < 10 ? "0" + sec : sec;
+                var now = new Date();
+                var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+
+
+                if (now_utc.getTime() < startDate.getTime()) {
+                    startDate = now_utc;
+                }                 
+
+               
+
+                var hour = Math.floor((now_utc.getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                var min = Math.floor(((now_utc.getTime() - startDate.getTime()) / (1000 * 60)) % 60);
+                var sec = Math.floor(((now_utc.getTime() - startDate.getTime()) / (1000)) % 60);
+
+                
+                var returnVar = 0;
+
+                if (hour > 0) {
+                    returnVar = hour;
+                }
+                else if (min > 0) {
+                    returnVar = min;
+                }
+                else {
+                    returnVar = sec;
+                }
+
+                if (returnVar < 10) {
+                    returnVar = "0" + Math.abs(returnVar);
+                }
+
+                return returnVar;
+
             }, this);
 
 
             this.seconds = ko.computed(function () {
                 _dummy();
-                var hour = Math.floor((new Date().getTime() - startDate.getTime()) / (1000 * 60 * 60));
-                var min = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000 * 60)) % 60);
-                var sec = Math.floor(((new Date().getTime() - startDate.getTime()) / (1000)) % 60);
-                var decsec = Math.floor(((new Date().getTime() - startDate.getTime()) / (10)) % 100);
 
-                if (hour > 0)
-                    return min < 10 ? "0" + min : min;
-                if (min > 0)
-                    return sec < 10 ? "0" + sec : sec;
-                return decsec < 10 ? "0" + decsec : decsec;
+                var now = new Date();
+                var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds());
+
+                if (now_utc.getTime() < startDate.getTime()) {
+                    startDate = now_utc;
+                }
+
+                var hour = Math.floor((now_utc.getTime() - startDate.getTime()) / (1000 * 60 * 60));
+                var min = Math.floor(((now_utc.getTime() - startDate.getTime()) / (1000 * 60)) % 60);
+                var sec = Math.floor(((now_utc.getTime() - startDate.getTime()) / (1000)) % 60);
+                var decsec = Math.floor(((now_utc.getTime() - startDate.getTime()) / (10)) % 100);
+
+                var returnVar = 0;
+
+                if (hour > 0) {
+                    returnVar = min;
+                }
+                else if (min > 0) {
+                    returnVar = sec;
+                }
+                else {
+                    returnVar = decsec;
+                }
+
+                if (returnVar < 10) {
+                    returnVar = "0" + Math.abs(returnVar);
+                }
+
+                return returnVar;
 
             }, this);
-
-
-
 
 
             this.poke = function () {
                 _dummy.notifySubscribers();
             };
-
-
-
         }
 
         var vm = new AppViewModel();
@@ -137,7 +212,6 @@ data-add-back-btn="true"
         }, 10);
 
         ko.applyBindings(vm);
-
 
     </script>
 

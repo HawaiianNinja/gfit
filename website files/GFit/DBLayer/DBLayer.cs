@@ -11,23 +11,16 @@ namespace gFit.DBLayer
     public abstract class DBLayer
     {
 
-
-
-        public static String ConnectionString;
-        public static SqlConnection Connection;
+        public static String ConnectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;        
 
         public DBLayer()
         {
-            ConnectionString = ConfigurationManager.ConnectionStrings["LocalSQLExpress"].ConnectionString;
-            Connection = new SqlConnection(ConnectionString);
         }
 
-
-
-        private static SqlCommand GetSqlCommandForStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters)
+        private SqlCommand GetSqlCommandForStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters, SqlConnection connection)
         {
-            
-            var cmd = new SqlCommand(storedProcedureName, Connection);
+
+            var cmd = new SqlCommand(storedProcedureName, connection);
             cmd.CommandType = CommandType.StoredProcedure;
 
             foreach (SqlParameter p in sqlParameters)
@@ -36,72 +29,55 @@ namespace gFit.DBLayer
             }
 
             return cmd;
-
         }
 
-
-
-
-        public static DataTable GetDataTableFromStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters)
+        public DataTable GetDataTableFromStoredProcedure(String storedProcedureName, List<SqlParameter> sqlParameters)
         {
-
-            Connection.Open();
-
-            SqlCommand cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
+            SqlConnection connection;
             DataTable dt = new DataTable();
-            dt.Load(reader);
+            using (connection = new SqlConnection(ConnectionString))
+            {
+                
+                SqlCommand cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters, connection);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-
-            Connection.Close();
-
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                dt.Load(reader);
+                connection.Close();
+            }
             return dt;
-
         }
 
-
-        public static int ExecuteNonQuery(String storedProcedureName, List<SqlParameter> sqlParameters)
+        public int ExecuteNonQuery(String storedProcedureName, List<SqlParameter> sqlParameters)
         {
+            SqlConnection connection;
+            int result = 0;
+            using (connection = new SqlConnection(ConnectionString))
+            {                
 
-            Connection.Open();
+                SqlCommand cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters, connection);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            SqlCommand cmd = GetSqlCommandForStoredProcedure(storedProcedureName, sqlParameters);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            int result = cmd.ExecuteNonQuery();
-
-
-
-            Connection.Close();
-
+                connection.Open();
+                result = cmd.ExecuteNonQuery();
+                connection.Close();
+            }
             return result;
-
-
         }
 
-
-        public static void AddSqlParameter(List<SqlParameter> list, string paramName, dynamic value)
+        public void AddSqlParameter(List<SqlParameter> list, string paramName, dynamic value)
         {
             list.Add(new SqlParameter(paramName, value));
         }
 
-
-
-        public static Object GetColValue(DataRow row, string colName)
+        public Object GetColValue(DataRow row, string colName)
         {
             if (row.IsNull(colName))
             {
                 return null;
             }
-
             return row[colName];
-
         }
-
-
-
     }
 }

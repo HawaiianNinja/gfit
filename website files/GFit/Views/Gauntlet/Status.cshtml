@@ -30,44 +30,74 @@ data-add-back-btn="true"
     }
 
 
-        @{Html.RenderPartial("_DataTilePartial", new DataVM(Model.Gauntlet.Excercise, "activity"));}
+    <div class="content-tile-base">
+        <div class="content-tile-title">Gauntlet Information</div>
+        <div class="left-bar-@barColor">
+
+            <div class="line-item">
+                <span class="item-title">Activity:</span><span class="item-value">@Model.Gauntlet.Excercise</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Status:</span><span class="item-value">@status</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Total Reps:</span><span class="item-value">@Model.Gauntlet.Reps</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Reps Done:</span><span class="item-value">@Model.TotalRepsCompleted</span>
+            </div>
+            <div class="line-item">
+                <span class="item-title">Reps Remaining:</span><span class="item-value">@Model.RepsLeft</span>
+            </div>
+
+        </div>
+
+    </div>
 
 
 
 
-    <ul data-role="listview" data-inset="true" data-theme="a">
-        <li data-role="list-divider" style="color: @barColor">Status: @status</li>
+
+
+    <ul data-role="listview" data-split-icon="delete" data-split-theme="a" data-inset="true">
+        <li data-role="list-divider">Sets: @Model.Sets.Count
+            @if (@Model.HasIncompleteSet)
+            {
+                Html.Raw("(1 pending)");
+            }
+
+        </li>
         @{var i = 1;}
 
 
-        @if(Model.IncompleteSet != null)
+        @if (Model.IncompleteSet != null)
         {
             <li data-theme="b">
-                <a href="@Url.Action("DoSet", "Gauntlet", new {id = Model.Gauntlet.Id})" data-inline="true">
+                <a href="@Url.Action("DoSet", "Gauntlet", new { id = Model.Gauntlet.Id })" data-inline="true">
                     @{Html.RenderPartial("_DataTilePartial", new DataVM(Model.Sets.Count, "set"));}
                     @{Html.RenderPartial("_DataTilePartial", new DataVM(String.Format("{0:h:mt}", Model.IncompleteSet.StartTime), "started"));}
                 </a>
+
             </li>  
         }
-            
 
 
 
-        @foreach (Set s in Model.Sets.OrderBy(o => o.Id).ToList<Set>())
+
+        @foreach (Set s in Model.Sets.OrderBy(o => o.StartTime).ToList<Set>())
         {
-                
-            if(s.Completed)
+
+            if (s.Completed)
             {
-                <li data-icon="check">
-                    <a href="#">
+            <li id="@s.Guid">
+                <a href="#">
                     @{Html.RenderPartial("_DataTilePartial", new DataVM(i++, "set"));}
                     @{Html.RenderPartial("_DataTilePartial", new DataVM(s.NumReps.ToString(), "reps"));}
                     @{Html.RenderPartial("_DataTilePartial", new DataVM(s.RepsPerMinute, "reps/min"));}
-                        </a>
-                </li>   
-            }
-            else{
-                               
+                </a>
+                <a href="#" class="action-delete-li">Delete this set</a>
+
+            </li>   
             }
 
         }
@@ -98,10 +128,29 @@ data-add-back-btn="true"
                 data-role="button" 
                 data-inline="true" 
                 data-icon="arrow-r" 
-                data-iconpos="right">Continue
+                data-iconpos="right">Do Another Set
             </a>  
         }
 
     </div>
 
+}
+
+
+@section Scripts{
+
+    <script>
+        $('.action-delete-li').on('click', function () {
+            var guidToDelete = $(this).closest('li').attr('id');
+
+            $.ajax({
+                url: "/Gauntlet/DeleteSet/@Model.Gauntlet.Id?setGuid=" + guidToDelete
+            });
+
+            $(this).closest('li').remove();
+        });
+    </script>
+
+
+    
 }

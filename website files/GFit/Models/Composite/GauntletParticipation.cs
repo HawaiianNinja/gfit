@@ -111,6 +111,23 @@ namespace gFit.Models.Composite
         }
 
 
+        public int TotalSetsCompleted
+        {
+            get
+            {
+                int sum = 0;
+                foreach (Set s in Sets)
+                {
+                    if (s.Completed)
+                        sum++;
+                }
+                return sum;
+            }
+            set { }
+        }
+
+
+
 
         public bool HasIncompleteSet
         {

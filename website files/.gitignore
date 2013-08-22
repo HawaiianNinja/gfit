@@ -7,7 +7,7 @@
 *.dll
 /gSculpt/bin/*.xml
 !*/Facebook.dll
-
+GFitDB.dbmdl
 
 *.exe
 *.pdb

@@ -1,7 +1,10 @@
 ﻿@{
     ViewBag.Title = "GFit - Today's Gauntlets";
 }
-@model IEnumerable<gFit.Models.Base.Gauntlet>
+@model IEnumerable<gFit.Models.Composite.GauntletParticipation>
+@using gFit.Models.Base
+@using gFit.Models.Composite
+@using gFit.Models.ViewModels
 
 
 
@@ -11,13 +14,13 @@ data-add-back-btn="true"
 
 
 @section Content{
-
+    
     <ul data-role="listview" data-inset="true">
         <li data-role="list-divider">gFit's Daily Gauntlets</li>
 
-        @foreach (var g in Model.OrderBy(o => o.BasePoints).ToList<gFit.Models.Base.Gauntlet>())
+        @foreach (GauntletParticipation p in Model.OrderBy(o => o.Gauntlet.BasePoints).ToList<GauntletParticipation>())
         {
-            @Html.Partial("_GFitGauntletListItem", g);
+            @Html.Partial("_GFitGauntletListItem", p);
         }
 
 
