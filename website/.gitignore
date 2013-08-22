@@ -6,7 +6,7 @@
 
 *.dll
 /gSculpt/bin/*.xml
-!*/Facebook.dll
+!Facebook.dll
 */*.dbmdl
 
 *.exe
