@@ -71,6 +71,22 @@ namespace gFit.DBLayer
         }
 
 
+        public List<Account> GetAccountsThatCompletedGauntlet(int gauntlet_id)
+        {
+            var sqlParameters = new List<SqlParameter>();
+
+            AddSqlParameter(sqlParameters, "@gauntlet_id", gauntlet_id);
+
+            var dt = GetDataTableFromStoredProcedure("usp_getAccountsThatCompletedGauntlet", sqlParameters);
+
+            return GetAccountsFromDataTable(dt);
+
+        }
+
+
+
+
+
         private List<Account> GetAccountsFromDataTable(DataTable dt)
         {
             if (dt.Rows.Count == 0)

@@ -79,6 +79,9 @@ namespace gFit.DBLayer
         }
 
 
+
+
+
         public List<Set> GetSetsByAccountAndGauntlet(int accountId, int gauntletId)
         {
             var sqlParameters = new List<SqlParameter>();

@@ -14,6 +14,7 @@ namespace gFit.Models.Composite
         public Gauntlet Gauntlet { get; set; }
         public Account Account { get; set; }
         public List<Set> Sets { get; set; }
+        public GauntletStatistics Statistics { get; set; }
 
 
         public bool IsStarted
@@ -133,7 +134,7 @@ namespace gFit.Models.Composite
                     return false;
                 }
 
-                //check that there isn't more than onne
+                //check that there isn't more than one
                 //incomplete set
                 var numIncompleteSets = 0;
                 foreach (var s in Sets)

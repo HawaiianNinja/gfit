@@ -56,9 +56,25 @@
 
 
 
+    @if(@Model.IsComplete)
+    {
+        
+     <div>Hello world</div>
+        
+        
+    }
 
 
-    <ul data-role="listview" data-split-icon="delete" data-split-theme="a" data-inset="true">
+
+
+
+
+
+    <ul 
+        data-role="listview" 
+        data-split-icon="delete" 
+        data-split-theme="a" 
+        data-inset="true">
         <li data-role="list-divider">Sets: @Model.Sets.Count
             @if (@Model.HasIncompleteSet)
             {

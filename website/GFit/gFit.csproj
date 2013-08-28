@@ -180,10 +180,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Base\AccountModels.cs" />
     <Compile Include="Models\Base\Gauntlet.cs" />
     <Compile Include="Models\Base\Set.cs" />
+    <Compile Include="Models\Composite\GauntletParticiaptionSummary.cs" />
     <Compile Include="Models\Composite\GauntletParticipation.cs" />
+    <Compile Include="Models\Composite\GauntletStatistics.cs" />
     <Compile Include="Models\ViewModels\AccountViewModel.cs" />
     <Compile Include="Models\ViewModels\DataVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,6 +264,7 @@
     <Content Include="SQL\gFit.dacpac" />
     <Content Include="Views\Gauntlet\Status.cshtml" />
     <Content Include="Views\Shared\_DataTilePartial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

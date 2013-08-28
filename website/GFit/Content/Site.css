@@ -16,8 +16,40 @@
 }
 
 
+
 /*
-    
+    Content sections
+    */
+
+.content-section {
+    padding: 12px 6px 12px 6px;
+    margin: 0px 0 12px 0;
+}
+
+    .content-section .title {
+        margin: 0px 0px 6px 0px;
+        color:#FFF;
+    }
+
+    .content-section .content {
+        padding: 6px;
+        font-size: 14px;
+        border-radius: .2em;
+        background-color: #999;
+        color:#222;
+        min-height:100px;
+    }
+
+        .content-section .content .line-item {
+
+        }
+
+
+
+
+
+/*
+    Regular tiles
     */
 
 .tile-base {

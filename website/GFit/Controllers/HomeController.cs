@@ -21,5 +21,15 @@ namespace gFit.Controllers
 
             return View(currentAccount);
         }
+
+
+        public ActionResult About()
+        {
+
+
+            return View();
+        }
+                
+
     }
 }

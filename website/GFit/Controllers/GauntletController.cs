@@ -1,12 +1,15 @@
 ﻿#region
 
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using gFit.BusinessLayer;
 using gFit.DBLayer;
 using gFit.Models.Base;
 using gFit.Models.Composite;
+using gFit.Models;
 
 #endregion
 
@@ -36,10 +39,38 @@ namespace gFit.Controllers
 
         public ActionResult Status(int id)
         {
+            Gauntlet g = GauntletDBLayer.Instance.GetGauntlet(id);
+
             var p = new GauntletParticipation();
-            p.Account = AccountBusinessLayer.GetCurrentAccount();
-            p.Gauntlet = GauntletDBLayer.Instance.GetGauntlet(id);
+            p.Gauntlet = g;
+            p.Account = AccountBusinessLayer.GetCurrentAccount();            
             p.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(p.Account.Id, p.Gauntlet.Id);
+
+
+
+            if (p.IsComplete)
+            {
+                List<Account> accounts = AccountDBLayer.Instance.GetAccountsThatCompletedGauntlet(p.Gauntlet.Id);
+
+
+
+                List<GauntletParticipation> gp = new List<GauntletParticipation>();
+
+                foreach (Account a in accounts)
+                {
+                    var p2 = new GauntletParticipation();
+                    p2.Gauntlet = g;
+                    p2.Account = a;
+                    p2.Sets = SetDBLayer.Instance.GetSetsByAccountAndGauntlet(a.Id, g.Id);
+
+                    gp.Add(p2);
+
+                }
+
+                p.Statistics = new GauntletStatistics { AllParticipations = gp };
+
+            }
+
 
 
             return View(p);

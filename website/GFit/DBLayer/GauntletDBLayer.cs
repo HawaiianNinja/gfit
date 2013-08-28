@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using gFit.Models.Base;
+using gFit.Models;
 
 #endregion
 
@@ -46,6 +47,7 @@ namespace gFit.DBLayer
         }
 
 
+
         public Gauntlet GetGauntlet(int gauntlet_id)
         {
             var sqlParameters = new List<SqlParameter>();
@@ -65,7 +67,7 @@ namespace gFit.DBLayer
         }
 
 
-        public List<Gauntlet> GetGauntletsFromDataTable(DataTable dt)
+        private List<Gauntlet> GetGauntletsFromDataTable(DataTable dt)
         {
             if (dt.Rows.Count == 0)
             {
