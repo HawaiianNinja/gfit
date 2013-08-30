@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Dynamic;
 using Facebook;
 using gFit.Models;
+using Microsoft.CSharp.RuntimeBinder;
+using gFit.DBLayer;
 
 #endregion
 
@@ -82,12 +84,23 @@ namespace gFit.Facebook
 
             var friends = new List<BasicFriend>();
 
-            foreach (var friend in (JsonArray) queryResult.friends["data"])
-                friends.Add(new BasicFriend
-                                {
-                                    Id = (string) (((JsonObject) friend)["id"]),
-                                    Name = (string) (((JsonObject) friend)["name"])
-                                });
+
+            try
+            {
+                foreach (var friend in (JsonArray)queryResult.friends["data"])
+                {
+                    friends.Add(new BasicFriend
+                                    {
+                                        Id = (string)(((JsonObject)friend)["id"]),
+                                        Name = (string)(((JsonObject)friend)["name"])
+                                    });
+                }
+            }
+            catch (RuntimeBinderException e)
+            {
+                LogDBLayer.Instance.AddToLog("Accesstoken: \"" + accessToken + "\" has no friends.\n" + e.StackTrace);
+            }
+            
             return friends;
         }
 

@@ -20,7 +20,7 @@ namespace gFit.Controllers
     public class AccountController : Controller
     {
         /*
-         * Notifiaction String
+         * Notifiaction Strings
          */
 
         private const string notification_loggedOut = "You have been logged out of gFit.";
@@ -97,7 +97,16 @@ namespace gFit.Controllers
                 account = new Account(facebookUid, accessToken);
                 account.Provider = provider;
                 account.PullDataFromFacebook();
+
+                if (account.Username == null)
+                {
+                    account.Username = account.Uid;
+                }
+
                 AccountDBLayer.Instance.AddAccountToDB(account);
+
+                account = AccountDBLayer.Instance.GetAccountFromDB(facebookUid);
+
             }
 
 

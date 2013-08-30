@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using gFit.Models.Base;
+using gFit.BusinessLayer;
 
 #endregion
 
@@ -184,6 +185,19 @@ namespace gFit.Models.Composite
             set { }
         }
 
+
+        public double StdDevRepsPerSet
+        {
+            get
+            {
+                List<double> values = new List<double>();
+                values = Sets.Select(o => (double) o.NumReps).ToList<double>();
+                return MathExtensions.StdDev(values);
+            }
+            set { }
+        }
+
+
         public TimeSpan TotalSetTime
         {
             get
@@ -194,7 +208,7 @@ namespace gFit.Models.Composite
                 {
                     if (s.Completed)
                     {
-                        totalTime.Add(s.EndTime.Subtract(s.StartTime));
+                        totalTime = totalTime.Add(s.EndTime - s.StartTime);
                     }
                 }
                 return totalTime;

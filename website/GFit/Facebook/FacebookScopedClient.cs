@@ -94,9 +94,18 @@ namespace gFit.Facebook
             }
 
             var id = userData["id"];
-            var username = userData["username"];
             userData.Remove("id");
-            userData.Remove("username");
+
+            var username = "";
+            if (userData.ContainsKey("username"))
+            {
+                username = userData["username"];
+                userData.Remove("username");
+            }
+            else
+            {
+                username = null;
+            }
 
             var result = new AuthenticationResult(true, ProviderName, id, username, userData);
             return result;

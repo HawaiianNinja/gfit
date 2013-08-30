@@ -56,12 +56,24 @@
 
 
 
-    @if(@Model.IsComplete)
+    @if (@Model.IsComplete)
     {
         
-     <div>Hello world</div>
-        
-        
+        <div>
+            @Model.Statistics.AllParticipations.Count
+        </div>
+        <div>
+            @Model.TotalSetTime
+        </div>
+        <div>
+            @Model.Statistics.MinTotalTime
+        </div>
+        <div>
+            @Model.Statistics.MaxTotalTime
+        </div>
+        <div> 
+            @Model.Statistics.AvgTotalTime
+        </div>
     }
 
 
