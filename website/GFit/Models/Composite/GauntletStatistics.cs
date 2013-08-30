@@ -33,9 +33,6 @@ namespace gFit.Models.Composite
             set { }
         }
 
-
-
-
         public double AverageNumOfSets
         {
             get

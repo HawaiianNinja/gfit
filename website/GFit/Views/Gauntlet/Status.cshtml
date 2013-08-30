@@ -63,16 +63,20 @@
             @Model.Statistics.AllParticipations.Count
         </div>
         <div>
-            @Model.TotalSetTime
+            Your total time: @Model.TotalSetTime 
+            <br />
+            Average total time: @Model.Statistics.AvgTotalTime
         </div>
         <div>
-            @Model.Statistics.MinTotalTime
+            Your average reps per set: @Model.AverageRepsPerSet
+            <br />
+            Global average reps per set: @Model.Statistics.AverageRepsPerSet
         </div>
         <div>
-            @Model.Statistics.MaxTotalTime
-        </div>
-        <div> 
-            @Model.Statistics.AvgTotalTime
+            You number of sets: @Model.Sets.Count
+            <br />
+            Average number of sets: @Model.Statistics.AverageNumOfSets
+
         </div>
     }
 
